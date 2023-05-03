@@ -22,9 +22,6 @@
                             <?= lang('stat466.home.home'); ?>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= lang('stat466.language.select'); ?>
@@ -35,6 +32,12 @@
                                     <?= lang('stat466.language.' . $locale); ?></a></li>
                             <?php endforeach; ?>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= base_url('logout') ?>">
+                            <?= lang('stat466.logout'); ?>
+                        </a>
                     </li>
                 </ul>
             </div>

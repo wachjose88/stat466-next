@@ -6,6 +6,7 @@ class Home extends BaseController
 {
     public function index()
     {
+
         return view('partial/header')
                 . view('home')
                 . view('partial/footer');

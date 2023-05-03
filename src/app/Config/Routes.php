@@ -31,8 +31,20 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('setlang/(:segment)', [Home::class, 'setLanguage']);
+$routes->group('', ['filter' => 'group:user'], static function ($routes) {
+    $routes->group(
+            '',
+            ['filter' => 'group:user'],
+            static function ($routes) {
+                $routes->get('/', 'Home::index');
+                $routes->get('setlang/(:segment)', [Home::class, 'setLanguage']);
+                $routes->get('setlang/(:segment)', [Home::class, 'setLanguage']);
+            }
+    );
+});
+
+
+service('auth')->routes($routes);
 
 /*
  * --------------------------------------------------------------------
