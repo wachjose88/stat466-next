@@ -7,7 +7,7 @@ class Home extends BaseController
     public function index()
     {
 
-        return view('partial/header')
+        return view('partial/header', ['title' => 'stat466.home.home'])
                 . view('home')
                 . view('partial/footer');
     }

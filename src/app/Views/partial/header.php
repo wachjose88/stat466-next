@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?= lang('stat466.home.title'); ?></title>
+        <title><?= lang($title); ?> - <?= lang('stat466.home.title'); ?></title>
         <link href="<?= base_url('css/bootstrap.css'); ?>" rel="stylesheet">
     </head>
     <body>
@@ -22,6 +22,14 @@
                             <?= lang('stat466.home.home'); ?>
                         </a>
                     </li>
+                    <?php if (in_array('admin', auth()->user()->getGroups())): ?>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= base_url('admin') ?>">
+                            <?= lang('stat466.admin.index'); ?>
+                        </a>
+                    </li>
+                    <?php endif; ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= lang('stat466.language.select'); ?>
@@ -36,7 +44,7 @@
                     <li class="nav-item">
                         <a class="nav-link"
                            href="<?= base_url('logout') ?>">
-                            <?= lang('stat466.logout'); ?>
+                            <?= lang('stat466.Auth.logout'); ?>
                         </a>
                     </li>
                 </ul>

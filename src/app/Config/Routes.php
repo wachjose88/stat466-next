@@ -3,6 +3,7 @@
 namespace Config;
 
 // Create a new instance of our RouteCollection class.
+use App\Controllers\Admin;
 use App\Controllers\Home;
 
 $routes = Services::routes();
@@ -37,14 +38,24 @@ $routes->group('', ['filter' => 'group:user'], static function ($routes) {
             ['filter' => 'group:user'],
             static function ($routes) {
                 $routes->get('/', 'Home::index');
-                $routes->get('setlang/(:segment)', [Home::class, 'setLanguage']);
-                $routes->get('setlang/(:segment)', [Home::class, 'setLanguage']);
+            }
+    );
+    $routes->group(
+            'admin',
+            ['filter' => 'group:admin'],
+            static function ($routes) {
+                $routes->get('/', [Admin::class, 'index']);
+                $routes->get('user/edit/(:segment)', [Admin::class, 'edituser']);
+                $routes->post('user/edit/(:segment)', [Admin::class, 'edituser']);
             }
     );
 });
+$routes->get('setlang/(:segment)', [Home::class, 'setLanguage']);
 
 
-service('auth')->routes($routes);
+service('auth')->routes($routes, ['except' => ['register']]);
+$routes->get('register', '\App\Controllers\RegisterController::registerView');
+$routes->post('register', '\App\Controllers\RegisterController::registerAction');
 
 /*
  * --------------------------------------------------------------------
