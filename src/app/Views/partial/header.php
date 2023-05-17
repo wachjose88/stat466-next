@@ -41,11 +41,18 @@
                             <?php endforeach; ?>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="<?= base_url('logout') ?>">
-                            <?= lang('stat466.Auth.logout'); ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= lang('stat466.profile.index'); ?>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?= base_url('profile/edit') ?>">
+                                    <?= lang('stat466.profile.edit'); ?></a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('profile/changepw') ?>">
+                                    <?= lang('stat466.profile.changepw'); ?></a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('logout') ?>">
+                                    <?= lang('stat466.profile.logout'); ?></a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

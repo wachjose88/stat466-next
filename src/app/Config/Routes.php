@@ -5,6 +5,7 @@ namespace Config;
 // Create a new instance of our RouteCollection class.
 use App\Controllers\Admin;
 use App\Controllers\Home;
+use App\Controllers\Profile;
 
 $routes = Services::routes();
 
@@ -39,6 +40,16 @@ $routes->group('', ['filter' => 'group:user'], static function ($routes) {
             static function ($routes) {
                 $routes->get('/', 'Home::index');
             }
+    );
+    $routes->group(
+        'profile',
+        ['filter' => 'group:user'],
+        static function ($routes) {
+            $routes->get('edit', [Profile::class, 'edit']);
+            $routes->get('changepw', [Profile::class, 'changepw']);
+            $routes->post('edit', [Profile::class, 'edit']);
+            $routes->post('changepw', [Profile::class, 'changepw']);
+        }
     );
     $routes->group(
             'admin',
