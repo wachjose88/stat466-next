@@ -44,6 +44,8 @@ abstract class BaseController extends Controller
      */
     protected $session;
 
+    protected $data = [];
+
     /**
      * Constructor.
      */
@@ -59,8 +61,22 @@ abstract class BaseController extends Controller
         $this->session = \Config\Services::session();
         $config = config(App::class);
 
+        $message = $this->session->get('message');
+        if (!is_null($message))
+        {
+            $this->data['message'] = $message;
+            $this->data['messagetype'] = $this->session->get('messagetype');
+            $this->session->set('message', null);
+        }
+
         $language = $this->session->get('setlanguage');
         $language = is_null($language) ? $config->defaultLocale : $language;
         $this->request->setLocale($language);
+    }
+
+    protected function showMessage($message, $type = 'success')
+    {
+        $this->session->set('message', $message);
+        $this->session->set('messagetype', $type);
     }
 }

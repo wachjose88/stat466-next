@@ -19,6 +19,7 @@
                     <th><?= lang('stat466.admin.users.email') ?></th>
                     <th><?= lang('stat466.admin.users.groups') ?></th>
                     <th><?= lang('stat466.admin.users.active') ?></th>
+                    <th><?= lang('stat466.admin.users.actions') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +37,13 @@
                             <?php if ($user->active): ?>
                             X
                             <?php endif; ?>
+                        </td>
+                        <td>
+                            <a href="<?= base_url('admin/user/edit/') . esc($user->id); ?>">
+                                <?= lang('stat466.admin.users.editaction') ?></a>,
+                            <a href="<?= base_url('admin/user/delete/') . esc($user->id); ?>"
+                               onclick="return confirm('<?= lang('stat466.admin.users.deleteconfirm') ?>')">
+                                <?= lang('stat466.admin.users.deleteaction') ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

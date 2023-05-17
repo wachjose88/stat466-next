@@ -52,3 +52,8 @@
         </div>
     </nav>
     <div class="container">
+        <?php if (isset($message) && !is_null($message)): ?>
+                <div class='alert alert-<?= esc($messagetype) ?> mt-2'>
+                    <?= esc($message); ?>
+                </div>
+        <?php endif; ?>

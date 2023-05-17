@@ -2,10 +2,10 @@
 
 <div class="card col-md-6">
     <div class="card-header">
-        <?= lang('stat466.admin.users.edit') ?>
+        <?= lang('stat466.admin.users.create') ?>
     </div>
     <div class="card-body">
-        <form action="<?= base_url('admin/user/edit/') . esc($user->id) ?>" method="post">
+        <form action="<?= base_url('admin/user/create') ?>" method="post">
             <?= csrf_field() ?>
 
             <div class="mb-2">
@@ -17,7 +17,7 @@
                 <?php endif; ?>
                 <input id="username" type="text" class="form-control" name="username" inputmode="text"
                        placeholder="<?= lang('stat466.admin.users.username') ?>"
-                       value="<?= esc($user->username) ?>" required />
+                       value="<?= $old['username'] ?>" required />
             </div>
 
             <div class="mb-2">
@@ -41,7 +41,7 @@
                 <?php endif; ?>
                 <input id="email" type="email" class="form-control" name="email" inputmode="text"
                        placeholder="<?= lang('stat466.admin.users.email') ?>"
-                       value="<?= esc($user->email) ?>" required />
+                       value="<?= $old['email'] ?>" required />
             </div>
 
             <div class="mb-2">
@@ -53,7 +53,7 @@
                 <?php endif; ?>
                 <input id="first_name" type="text" class="form-control" name="first_name" inputmode="text"
                        placeholder="<?= lang('stat466.admin.users.first_name') ?>"
-                       value="<?= esc($user->first_name) ?>" required />
+                       value="<?= $old['first_name'] ?>" required />
             </div>
 
             <div class="mb-2">
@@ -65,7 +65,7 @@
                 <?php endif; ?>
                 <input id="last_name" type="text" class="form-control" name="last_name" inputmode="text"
                        placeholder="<?= lang('stat466.admin.users.last_name') ?>"
-                       value="<?= esc($user->last_name) ?>" required />
+                       value="<?= $old['last_name'] ?>" required />
             </div>
 
             <div class="mb-2">
@@ -78,7 +78,7 @@
                 <select id="groups" name="groups[]" class="form-select" multiple aria-label="multiple select groups">
                     <?php foreach ($groups as $key => $group): ?>
                     <option value="<?= esc($key) ?>"
-                    <?php if (in_array($key, $usergroups)) echo 'selected'; ?>
+                    <?php if (in_array($key, $old['groups'])) echo 'selected'; ?>
                     ><?= esc($group['title']) ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -92,7 +92,7 @@
                     </div>
                 <?php endif; ?>
                 <input id="active" type="checkbox" class="form-check-input" name="active" value="1"
-                      <?php if ($user->active) echo 'checked' ?> />
+                      <?php if ($old['active'] == '1') echo 'checked' ?> />
                 <label class="form-check-label" for="active"><?= lang('stat466.admin.users.active') ?>:</label>
             </div>
 

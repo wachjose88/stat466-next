@@ -6,8 +6,8 @@ class Home extends BaseController
 {
     public function index()
     {
-
-        return view('partial/header', ['title' => 'stat466.home.home'])
+        $this->data['title'] = 'stat466.home.home';
+        return view('partial/header', $this->data)
                 . view('home')
                 . view('partial/footer');
     }

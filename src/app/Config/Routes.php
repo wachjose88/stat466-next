@@ -47,6 +47,9 @@ $routes->group('', ['filter' => 'group:user'], static function ($routes) {
                 $routes->get('/', [Admin::class, 'index']);
                 $routes->get('user/edit/(:segment)', [Admin::class, 'edituser']);
                 $routes->post('user/edit/(:segment)', [Admin::class, 'edituser']);
+                $routes->get('user/create', [Admin::class, 'createuser']);
+                $routes->post('user/create', [Admin::class, 'createuser']);
+                $routes->get('user/delete/(:segment)', [Admin::class, 'deleteuser']);
             }
     );
 });
