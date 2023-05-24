@@ -15,6 +15,24 @@ return [
     ],
     'admin' => [
         'index' => 'Admin',
+        'leagues' => [
+            'leagues' => 'Leagues',
+            'create' => 'Create league',
+            'edit' => 'Edit league',
+            'name' => 'Name',
+            'noleagues' => 'No leagues created.',
+            'editsuccess' => 'The league was edited successfully.',
+            'createsuccess' => 'The league was created successfully.',
+            'editaction' => 'Edit',
+            'deleteaction' => 'Delete',
+            'actions' => 'Actions',
+            'deleteconfirm' => 'Are you sure?',
+            'deletesuccess' => 'The league was deleted successfully.',
+            'users' => 'Users',
+            'userssuccess' => 'The users of the league have been modified successfully.',
+            'usersaction' => 'Users',
+            'numusers' => '# Users'
+        ],
         'users' => [
             'users' => 'Users',
             'create' => 'Create user',

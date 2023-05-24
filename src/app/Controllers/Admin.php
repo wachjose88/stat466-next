@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\LeagueModel;
 use App\Models\UserModel;
+use App\Models\UserOfLeagueModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Admin extends BaseController
@@ -11,13 +13,20 @@ class Admin extends BaseController
     public function index()
     {
         $usermodel = new UserModel();
+        $leaguemodel = new LeagueModel();
+        $leagues = $leaguemodel->getLeagues();
         $users = $usermodel->findAll();
         if (!is_array($users))
         {
             $users = [$users];
         }
+        if (!is_array($leagues))
+        {
+            $leagues = [$leagues];
+        }
         $data = [
-                'users' => $users
+                'users' => $users,
+                'leagues' => $leagues
         ];
         $this->data['title'] = 'stat466.admin.index';
         return view('partial/header', $this->data)
@@ -192,5 +201,144 @@ class Admin extends BaseController
         $usermodel->delete($userid);
         $this->showMessage(lang('stat466.admin.users.deletesuccess'));
         return redirect()->to('admin');
+    }
+
+    public function deleteleague($leagueid)
+    {
+        $leaguemodel = new LeagueModel();
+        $leaguemodel->delete($leagueid);
+        $this->showMessage(lang('stat466.admin.leagues.deletesuccess'));
+        return redirect()->to('admin');
+    }
+
+    public function usersofleague($leagueid)
+    {
+        $leaguemodel = new LeagueModel();
+        $userofleaguemodel = new UserOfLeagueModel();
+        $usermodel = new UserModel();
+        $league = $leaguemodel->find($leagueid);
+        $usersofleague = $userofleaguemodel->select()->where('league_id', $leagueid)->findAll();
+        $usersofleague = array_column($usersofleague, null, 'user_id');
+        $users = $usermodel->findAll();
+        if (is_null($league))
+        {
+            throw PageNotFoundException::forPageNotFound();
+        }
+        $data = [
+            'league' => $league,
+            'users' => $users,
+            'usersofleague' => $usersofleague
+        ];
+        if ($this->request->getMethod() == 'post')
+        {
+            $input = $this->validate([
+                'usersofleague' => []
+            ]);
+            if (!$input)
+            {
+                $data['validation'] = $this->validator;
+            }
+            else
+            {
+                $uols = $this->request->getPost('usersofleague');
+                $userofleaguemodel->where('league_id', $league['id'])->delete();
+                foreach ($uols as $uol)
+                {
+                    $userofleague = [
+                        'user_id' => $uol,
+                        'league_id' => $league['id'],
+                        'active' => true
+                    ];
+                    $userofleaguemodel->save($userofleague);
+                }
+                $this->showMessage(lang('stat466.admin.leagues.userssuccess'));
+                return redirect()->to('admin');
+            }
+        }
+        $this->data['title'] = 'stat466.admin.leagues.users';
+        return view('partial/header', $this->data)
+            . view('admin/league/users', $data)
+            . view('partial/footer');
+    }
+
+    public function editleague($leagueid)
+    {
+        $leaguemodel = new LeagueModel();
+        $league = $leaguemodel->find($leagueid);
+        if (is_null($league))
+        {
+            throw PageNotFoundException::forPageNotFound();
+        }
+        $data = [
+            'league' => $league
+        ];
+        if ($this->request->getMethod() == 'post')
+        {
+            $input = $this->validate([
+                'name' => [
+                    'required',
+                    'min_length[3]',
+                    'max_length[99]'
+                ]
+            ]);
+            if (!$input)
+            {
+                $data['validation'] = $this->validator;
+            }
+            else
+            {
+                $name = $this->request->getVar('name');
+                $league['name'] = $name;
+
+                $leaguemodel->save($league);
+                $this->showMessage(lang('stat466.admin.leagues.editsuccess'));
+                return redirect()->to('admin');
+            }
+        }
+        $this->data['title'] = 'stat466.admin.leagues.edit';
+        return view('partial/header', $this->data)
+            . view('admin/league/edit', $data)
+            . view('partial/footer');
+    }
+
+    public function createleague()
+    {
+        $leaguemodel = new LeagueModel();
+        $values = [
+                'name' => ''
+        ];
+        $data = [
+                'old' => $values
+        ];
+        if ($this->request->getMethod() == 'post')
+        {
+            $input = $this->validate([
+                    'name' => [
+                            'required',
+                            'min_length[3]',
+                            'max_length[99]'
+                    ]
+            ]);
+            $name = $this->request->getVar('name');
+            $values = [
+                    'name' => $name,
+            ];
+            if (!$input)
+            {
+                $data['validation'] = $this->validator;
+                $data['old'] = $values;
+            }
+            else
+            {
+
+                $leaguemodel->save($values);
+                $this->showMessage(lang('stat466.admin.leagues.createsuccess'));
+                return redirect()->to('admin');
+            }
+        }
+        $this->data['title'] = 'stat466.admin.leagues.create';
+        return view('partial/header', $this->data)
+                . view('admin/league/create', $data)
+                . view('partial/footer');
     }
 }

@@ -61,6 +61,13 @@ $routes->group('', ['filter' => 'group:user'], static function ($routes) {
                 $routes->get('user/create', [Admin::class, 'createuser']);
                 $routes->post('user/create', [Admin::class, 'createuser']);
                 $routes->get('user/delete/(:segment)', [Admin::class, 'deleteuser']);
+                $routes->get('league/create', [Admin::class, 'createleague']);
+                $routes->post('league/create', [Admin::class, 'createleague']);
+                $routes->get('league/edit/(:segment)', [Admin::class, 'editleague']);
+                $routes->post('league/edit/(:segment)', [Admin::class, 'editleague']);
+                $routes->get('league/delete/(:segment)', [Admin::class, 'deleteleague']);
+                $routes->get('league/(:segment)/users', [Admin::class, 'usersofleague']);
+                $routes->post('league/(:segment)/users', [Admin::class, 'usersofleague']);
             }
     );
 });
