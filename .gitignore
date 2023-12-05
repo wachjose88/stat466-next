@@ -1,2 +1,11 @@
-composer.phar
+# pycharm
 .idea
+
+# bk files
+*~
+
+# python binary
+*.pyc
+
+# devdatabase
+stat466/db.sqlite3
