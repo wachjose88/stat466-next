@@ -1,0 +1,88 @@
+
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+    <title>
+        {% block title %}Home{% endblock %}
+        - {% translate "Stat466" %}
+    </title>
+        <link href="{% static "core/css/bootstrap.css" %}" rel="stylesheet">
+        <link href="{% static "core/css/style.css" %}" rel="stylesheet">
+    </head>
+    <body>
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'core.index' %}">
+                {% translate 'Stat466' %}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page"
+                           href="{% url 'core.index' %}">
+                            {% translate 'Home' %}
+                        </a>
+                    </li>
+                    {% comment %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= lang('stat466.leagues.index'); ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php foreach ($userleagues as $userleague): ?>
+                                <li><a class="dropdown-item" href="<?= base_url('league/' . $userleague['id']) ?>">
+                                        <?= esc($userleague['name']); ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= lang('stat466.language.select'); ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php foreach (config('App')->supportedLocales as $locale): ?>
+                            <li><a class="dropdown-item" href="<?= base_url('setlang/' . $locale) ?>">
+                                    <?= lang('stat466.language.' . $locale); ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                    {% endcomment %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core.index' %}">
+                        {% translate 'Home' %}
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    x
+                </li>
+            </ol>
+        </nav>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+    <script src="{% static "core/js/bootstrap.bundle.js" %}"></script>
+    </body>
+</html>

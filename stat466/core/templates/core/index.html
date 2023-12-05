@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% translate 'Home' %}{% endblock %}
+{% block content %}
+    <h1>{% translate 'Hello and Welcome!' %}</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="{% static 'core/images/eichel.svg' %}" class="img-fluid titleimage">
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'core/images/herz.svg' %}" class="img-fluid titleimage">
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'core/images/laub.svg' %}" class="img-fluid titleimage">
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'core/images/schellen.svg' %}" class="img-fluid titleimage">
+        </div>
+    </div>
+{% endblock %}
