@@ -4,16 +4,24 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserOfLeagueModel extends Model
+class Result2PModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'userofleagues';
+    protected $table            = 'result2p';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'league_id'];
+    protected $allowedFields    = [
+        'league_id',
+        'player_1',
+        'player_2',
+        'points_p1',
+        'points_p2',
+        'played_at',
+        'num_games'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -38,28 +46,4 @@ class UserOfLeagueModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getLeaguesOfUser($userid)
-    {
-        $leaguemodel = new LeagueModel();
-        $userleagues = [];
-        $leagues = $this->where('user_id', $userid)->findAll();
-        foreach ($leagues as &$league)
-        {
-            $userleagues[] = $leaguemodel->where('id', $league['league_id'])->first();
-        }
-        return $userleagues;
-    }
-
-    public function getUsersOfLeague($leagueid)
-    {
-        $usermodel = auth()->getProvider();
-        $users = [];
-        $userleagues = $this->where('league_id', $leagueid)->findAll();
-        foreach ($userleagues as $userleague)
-        {
-            $users[$userleague['user_id']] = $usermodel->findById($userleague['user_id']);
-        }
-        return $users;
-    }
 }

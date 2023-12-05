@@ -3,7 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?= lang($title); ?> - <?= lang('stat466.home.title'); ?></title>
+        <title>
+            <?php if (str_starts_with('stat466.', $title)) { echo lang($title); } else { echo $title; } ?>
+            - <?= lang('stat466.home.title'); ?></title>
         <link href="<?= base_url('css/bootstrap.css'); ?>" rel="stylesheet">
     </head>
     <body>
@@ -30,6 +32,17 @@
                         </a>
                     </li>
                     <?php endif; ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= lang('stat466.leagues.index'); ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php foreach ($userleagues as $userleague): ?>
+                                <li><a class="dropdown-item" href="<?= base_url('league/' . $userleague['id']) ?>">
+                                        <?= esc($userleague['name']); ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= lang('stat466.language.select'); ?>
@@ -59,8 +72,28 @@
         </div>
     </nav>
     <div class="container">
+
+        <?php if (isset($breadcrumb) && !is_null($breadcrumb)): ?>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <?php foreach ($breadcrumb as $crumb): ?>
+                        <?php if ($crumb['active'] == true): ?>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <?= esc($crumb['title']); ?>
+                            </li>
+                        <?php else: ?>
+                            <li class="breadcrumb-item"><a href="<?= esc($crumb['url']); ?>">
+                                    <?= esc($crumb['title']); ?>
+                                </a></li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </ol>
+            </nav>
+        <?php endif; ?>
+
         <?php if (isset($message) && !is_null($message)): ?>
-                <div class='alert alert-<?= esc($messagetype) ?> mt-2'>
-                    <?= esc($message); ?>
-                </div>
+            <div class='alert alert-<?= esc($messagetype) ?> mt-2'>
+                <?= esc($message); ?>
+            </div>
         <?php endif; ?>

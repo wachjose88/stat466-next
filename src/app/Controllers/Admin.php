@@ -12,6 +12,7 @@ class Admin extends BaseController
 {
     public function index()
     {
+        $this->addBreadcrumb('stat466.admin.index', 'admin', true);
         $usermodel = new UserModel();
         $leaguemodel = new LeagueModel();
         $leagues = $leaguemodel->getLeagues();
@@ -36,6 +37,8 @@ class Admin extends BaseController
 
     public function createuser()
     {
+        $this->addBreadcrumb('stat466.admin.index', 'admin', false);
+        $this->addBreadcrumb('stat466.admin.users.create', null, true);
         $usermodel = new UserModel();
         $values = [
                 'username' => '',
@@ -120,6 +123,8 @@ class Admin extends BaseController
 
     public function edituser($userid)
     {
+        $this->addBreadcrumb('stat466.admin.index', 'admin', false);
+        $this->addBreadcrumb('stat466.admin.users.edit', null, true);
         $usermodel = new UserModel();
         $user = $usermodel->findById($userid);
         if (is_null($user))
@@ -213,6 +218,8 @@ class Admin extends BaseController
 
     public function usersofleague($leagueid)
     {
+        $this->addBreadcrumb('stat466.admin.index', 'admin', false);
+        $this->addBreadcrumb('stat466.admin.leagues.users', null, true);
         $leaguemodel = new LeagueModel();
         $userofleaguemodel = new UserOfLeagueModel();
         $usermodel = new UserModel();
@@ -263,6 +270,8 @@ class Admin extends BaseController
 
     public function editleague($leagueid)
     {
+        $this->addBreadcrumb('stat466.admin.index', 'admin', false);
+        $this->addBreadcrumb('stat466.admin.leagues.edit', null, true);
         $leaguemodel = new LeagueModel();
         $league = $leaguemodel->find($leagueid);
         if (is_null($league))
@@ -303,6 +312,8 @@ class Admin extends BaseController
 
     public function createleague()
     {
+        $this->addBreadcrumb('stat466.admin.index', 'admin', false);
+        $this->addBreadcrumb('stat466.admin.leagues.create', null, true);
         $leaguemodel = new LeagueModel();
         $values = [
                 'name' => ''

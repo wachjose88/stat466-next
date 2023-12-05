@@ -2,14 +2,13 @@
 
 <div class="card col-md-6">
     <div class="card-header">
-        <?= lang('stat466.admin.leagues.users') ?>
+        <?= lang('stat466.admin.leagues.users') ?>: <?= esc($league['name']) ?>
     </div>
     <div class="card-body">
         <form action="<?= base_url('admin/league/') . esc($league['id']) ?>/users" method="post">
             <?= csrf_field() ?>
 
             <div class="mb-2">
-                <label class="form-label" for="usersofleague"><?= lang('stat466.admin.leagues.users') ?>:</label>
                 <?php if (isset($validation) && $validation->getError('usersofleague')): ?>
                     <div class='alert alert-danger mt-2'>
                         <?= $error = $validation->getError('usersofleague'); ?>

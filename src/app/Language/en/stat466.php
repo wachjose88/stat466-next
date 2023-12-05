@@ -28,7 +28,7 @@ return [
             'actions' => 'Actions',
             'deleteconfirm' => 'Are you sure?',
             'deletesuccess' => 'The league was deleted successfully.',
-            'users' => 'Users',
+            'users' => 'Users of league',
             'userssuccess' => 'The users of the league have been modified successfully.',
             'usersaction' => 'Users',
             'numusers' => '# Users'

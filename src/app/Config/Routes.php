@@ -5,6 +5,7 @@ namespace Config;
 // Create a new instance of our RouteCollection class.
 use App\Controllers\Admin;
 use App\Controllers\Home;
+use App\Controllers\League;
 use App\Controllers\Profile;
 
 $routes = Services::routes();
@@ -49,6 +50,14 @@ $routes->group('', ['filter' => 'group:user'], static function ($routes) {
             $routes->get('changepw', [Profile::class, 'changepw']);
             $routes->post('edit', [Profile::class, 'edit']);
             $routes->post('changepw', [Profile::class, 'changepw']);
+        }
+    );
+    $routes->group(
+        'league',
+        ['filter' => 'group:user'],
+        static function ($routes) {
+            $routes->get('(:segment)', [League::class, 'index']);
+            $routes->get('(:segment)/create/result2p', [League::class, 'create_result_2p']);
         }
     );
     $routes->group(

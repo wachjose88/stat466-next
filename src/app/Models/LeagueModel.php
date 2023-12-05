@@ -50,4 +50,18 @@ class LeagueModel extends Model
         }
         return $leagues;
     }
+
+    public function getLeague($leagueid)
+    {
+        $league = $this->find($leagueid);
+        $userofleaguemodel = new UserOfLeagueModel();
+        $usermodel = auth()->getProvider();
+        $league['users'] = $userofleaguemodel->select()->where(
+            'league_id', $league['id'])->findAll();
+        foreach ($league['users'] as &$user)
+        {
+            $user['profile'] = $usermodel->findById($user['user_id']);
+        }
+        return $league;
+    }
 }

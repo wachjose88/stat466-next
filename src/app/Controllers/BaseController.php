@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\UserOfLeagueModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -61,6 +62,9 @@ abstract class BaseController extends Controller
         $this->session = \Config\Services::session();
         $config = config(App::class);
 
+        $this->data['breadcrumb'] = [];
+        $this->addBreadcrumb('stat466.home.home', '/', false);
+
         $message = $this->session->get('message');
         if (!is_null($message))
         {
@@ -72,11 +76,30 @@ abstract class BaseController extends Controller
         $language = $this->session->get('setlanguage');
         $language = is_null($language) ? $config->defaultLocale : $language;
         $this->request->setLocale($language);
+
+        $userofleaguemodel = new UserOfLeagueModel();
+        if (!is_null(auth()->user()))
+        {
+            $this->data['userleagues'] = $userofleaguemodel->getLeaguesOfUser(
+                    auth()->user()->id
+            );
+        }
+
     }
 
     protected function showMessage($message, $type = 'success')
     {
         $this->session->set('message', $message);
         $this->session->set('messagetype', $type);
+    }
+
+    protected function addBreadcrumb($title, $url, $active)
+    {
+
+        $this->data['breadcrumb'][] = [
+                'title' => lang($title),
+                'url' => is_null($url) ? null : base_url($url),
+                'active' => $active
+        ];
     }
 }

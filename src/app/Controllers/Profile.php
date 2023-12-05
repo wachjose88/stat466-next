@@ -10,6 +10,8 @@ class Profile extends BaseController
 {
     public function edit()
     {
+        $this->addBreadcrumb('stat466.profile.index', null, true);
+        $this->addBreadcrumb('stat466.profile.edit', null, true);
         $usermodel = new UserModel();
         $user = auth()->user();
         if (is_null($user))
@@ -72,6 +74,8 @@ class Profile extends BaseController
 
     public function changepw()
     {
+        $this->addBreadcrumb('stat466.profile.index', null, true);
+        $this->addBreadcrumb('stat466.profile.changepw', null, true);
         $usermodel = new UserModel();
         $user = auth()->user();
         if (is_null($user))
