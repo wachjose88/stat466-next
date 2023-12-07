@@ -11,7 +11,8 @@ class LeagueOf2PlayersAdmin(admin.ModelAdmin):
 
 
 class LeagueOf3PlayersAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at', 'player_1', 'player_2', 'player_3')
+    list_display = ('title', 'created_at', 'player_1',
+                    'player_2', 'player_3')
     list_filter = ('created_at', )
     search_fields = ('title',)
 

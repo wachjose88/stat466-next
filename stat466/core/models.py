@@ -1,7 +1,18 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Count, Sum
+from django.db.models.functions import TruncYear
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+
+
+def custom_user_str(self):
+    if self.first_name is None or self.last_name is None:
+        return str(self.username)
+    return f'{self.first_name} {self.last_name}'
+
+
+User.add_to_class("__str__", custom_user_str)
 
 
 class LeagueOf2Players(models.Model):
@@ -70,6 +81,26 @@ class LeagueOf3Players(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Player 3')
     )
+
+    def get_statistic(self):
+        statistic = self.results.aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'), Sum('player_3_points'))
+        return statistic
+
+    def get_year_statistic(self):
+        years = self.results.annotate(year=TruncYear('played_at'))\
+            .values('year')\
+            .annotate(
+                num_results=Count('id'),
+                sum_games=Sum('num_games'),
+                sum_player_1=Sum('player_1_points'),
+                sum_player_2=Sum('player_2_points'),
+                sum_player_3=Sum('player_3_points')
+            )\
+            .values('year', 'num_results', 'sum_games', 'sum_player_1',
+                    'sum_player_2', 'sum_player_3')
+        return years
 
     def __str__(self):
         return str(self.title)

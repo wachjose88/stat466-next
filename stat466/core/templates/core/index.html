@@ -4,18 +4,120 @@
 {% block title %}{% translate 'Home' %}{% endblock %}
 {% block content %}
     <h1>{% translate 'Hello and Welcome!' %}</h1>
-    <div class="row">
-        <div class="col-md-3">
-            <img src="{% static 'core/images/eichel.svg' %}" class="img-fluid titleimage">
+    <p>{% translate 'This is a statistic tool for the card game Schnapsen.' %}</p>
+
+    {% if leagues_2p %}
+        <h2 class="spacer">{% translate 'Leagues of 2 Players' %}</h2>
+        <div class="row">
+            {% for league_2p in leagues_2p %}
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <div class="card-header text-bg-success">
+                            {{ league_2p.title }}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% translate 'Player 1' %}:
+                                {{ league_2p.player_1.first_name }}
+                                {{ league_2p.player_1.last_name }}
+                            </li>
+                            <li class="list-group-item">
+                                {% translate 'Player 2' %}:
+                                {{ league_2p.player_2.first_name }}
+                                {{ league_2p.player_2.last_name }}
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="{% url 'core.league_2p_years' league_id=league_2p.id %}"
+                               class="btn btn-success">
+                                {% translate 'View results' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        <div class="col-md-3">
-            <img src="{% static 'core/images/herz.svg' %}" class="img-fluid titleimage">
+    {% endif %}
+
+    {% if leagues_3p %}
+        <h2 class="spacer">{% translate 'Leagues of 3 Players' %}</h2>
+        <div class="row">
+            {% for league_3p in leagues_3p %}
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <div class="card-header text-bg-success">
+                            {{ league_3p.title }}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% translate 'Player 1' %}:
+                                {{ league_3p.player_1.first_name }}
+                                {{ league_3p.player_1.last_name }}
+                            </li>
+                            <li class="list-group-item">
+                                {% translate 'Player 2' %}:
+                                {{ league_3p.player_2.first_name }}
+                                {{ league_3p.player_2.last_name }}
+                            </li>
+                            <li class="list-group-item">
+                                {% translate 'Player 3' %}:
+                                {{ league_3p.player_3.first_name }}
+                                {{ league_3p.player_3.last_name }}
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="{% url 'core.league_3p_years' league_id=league_3p.id %}"
+                               class="btn btn-success">
+                                {% translate 'View results' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        <div class="col-md-3">
-            <img src="{% static 'core/images/laub.svg' %}" class="img-fluid titleimage">
+    {% endif %}
+
+
+    {% if leagues_4p %}
+        <h2 class="spacer">{% translate 'Leagues of 4 Players' %}</h2>
+        <div class="row">
+            {% for league_4p in leagues_4p %}
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <div class="card-header text-bg-success">
+                            {{ league_4p.title }}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% translate 'Player 1' %}:
+                                {{ league_4p.player_1.first_name }}
+                                {{ league_4p.player_1.last_name }}
+                            </li>
+                            <li class="list-group-item">
+                                {% translate 'Player 2' %}:
+                                {{ league_4p.player_2.first_name }}
+                                {{ league_4p.player_2.last_name }}
+                            </li>
+                            <li class="list-group-item">
+                                {% translate 'Player 3' %}:
+                                {{ league_4p.player_3.first_name }}
+                                {{ league_4p.player_3.last_name }}
+                            </li>
+                            <li class="list-group-item">
+                                {% translate 'Player 4' %}:
+                                {{ league_4p.player_4.first_name }}
+                                {{ league_4p.player_4.last_name }}
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="{% url 'core.league_4p_years' league_id=league_4p.id %}"
+                               class="btn btn-success">
+                                {% translate 'View results' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        <div class="col-md-3">
-            <img src="{% static 'core/images/schellen.svg' %}" class="img-fluid titleimage">
-        </div>
-    </div>
+    {% endif %}
 {% endblock %}

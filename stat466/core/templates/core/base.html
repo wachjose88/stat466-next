@@ -8,10 +8,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
-    <title>
-        {% block title %}Home{% endblock %}
-        - {% translate "Stat466" %}
-    </title>
+            {% block title %}Home{% endblock %}
+            - {% translate "Stat466" %}
+        </title>
         <link href="{% static "core/css/bootstrap.css" %}" rel="stylesheet">
         <link href="{% static "core/css/style.css" %}" rel="stylesheet">
     </head>
@@ -31,18 +30,40 @@
                             {% translate 'Home' %}
                         </a>
                     </li>
-                    {% comment %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?= lang('stat466.leagues.index'); ?>
+                            {% translate 'Leagues of 2 Players' %}
                         </a>
                         <ul class="dropdown-menu">
-                            <?php foreach ($userleagues as $userleague): ?>
-                                <li><a class="dropdown-item" href="<?= base_url('league/' . $userleague['id']) ?>">
-                                        <?= esc($userleague['name']); ?></a></li>
-                            <?php endforeach; ?>
+                            {% for league in list_leagues_of_2p %}
+                                <li><a class="dropdown-item" href="{% url 'core.league_2p_years' league_id=league.id %}">
+                                        {{ league.title }}</a></li>
+                            {% endfor %}
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% translate 'Leagues of 3 Players' %}
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for league in list_leagues_of_3p %}
+                                <li><a class="dropdown-item" href="{% url 'core.league_3p_years' league_id=league.id %}">
+                                        {{ league.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% translate 'Leagues of 4 Players' %}
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for league in list_leagues_of_4p %}
+                                <li><a class="dropdown-item" href="{% url 'core.league_4p_years' league_id=league.id %}">
+                                        {{ league.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% comment %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= lang('stat466.language.select'); ?>
@@ -59,30 +80,52 @@
             </div>
         </div>
     </nav>
-    <div class="container">
-
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'core.index' %}">
-                        {% translate 'Home' %}
-                    </a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    x
-                </li>
-            </ol>
-        </nav>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-info" role="alert">
-                    {{ message }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <br>
+                <div class="container">
+                    <img src="{% static 'core/images/cards_herz.jpg' %}" class="img-fluid">
                 </div>
-            {% endfor %}
-        {% endif %}
+                <div class="container">
+                    <img src="{% static 'core/images/cards_pik.jpg' %}" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'core.index' %}">
+                                    {% translate 'Home' %}
+                                </a>
+                            </li>
+                            {% block breadcrumb %}{% endblock %}
+                        </ol>
+                    </nav>
 
-        {% block content %}{% endblock %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-info" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <br>
+                <div class="container">
+                    <img src="{% static 'core/images/cards_kreuz.jpg' %}" class="img-fluid">
+                </div>
+                <div class="container">
+                    <img src="{% static 'core/images/cards_karo.jpg' %}" class="img-fluid">
+                </div>
+            </div>
+        </div>
     </div>
+
+
     <script src="{% static "core/js/bootstrap.bundle.js" %}"></script>
     </body>
 </html>

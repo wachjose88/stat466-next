@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{{ league.title }} - {% translate 'League of 3 Players' %}{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active" aria-current="page">
+    {% translate 'League of 3 Players' %}
+</li>
+<li class="breadcrumb-item active" aria-current="page">
+    {{ league.title }}
+</li>
+{% endblock %}
+{% block content %}
+    <h1>{{ league.title }}</h1>
+    <p>{% translate 'League of 3 Players' %}</p>
+
+    {% if year_statistic %}
+    <h2>{% translate 'Statistic' %}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% translate 'Year' %}</th>
+                <th>{% translate '# Results' %}</th>
+                <th>{% translate '# Games' %}</th>
+                <th>{{ league.player_1 }}</th>
+                <th>{{ league.player_2 }}</th>
+                <th>{{ league.player_3 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for year in year_statistic %}
+                <tr>
+                    <td>{{ year.year.year }}</td>
+                    <td>{{ year.num_results }}</td>
+                    <td>{{ year.sum_games }}</td>
+                    <td>{{ year.sum_player_1 }}</td>
+                    <td>{{ year.sum_player_2 }}</td>
+                    <td>{{ year.sum_player_3 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>&nbsp;</th>
+                <th>{{ statistic.id__count }}</th>
+                <th>{{ statistic.num_games__sum }}</th>
+                <th>{{ statistic.player_1_points__sum }}</th>
+                <th>{{ statistic.player_2_points__sum }}</th>
+                <th>{{ statistic.player_3_points__sum }}</th>
+            </tr>
+        </tfoot>
+    </table>
+    {% endif %}
+{% endblock %}
