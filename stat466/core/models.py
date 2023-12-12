@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncYear, TruncMonth, TruncDay
+from django.templatetags.static import static
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -10,7 +12,6 @@ def custom_user_str(self):
     if self.first_name is None or self.last_name is None:
         return str(self.username)
     return f'{self.first_name} {self.last_name}'
-
 
 User.add_to_class("__str__", custom_user_str)
 
@@ -386,3 +387,43 @@ class Result4Players(models.Model):
     class Meta:
         verbose_name = _('Result of a 4 Player game')
         verbose_name_plural = _('Results of 4 Player games')
+
+
+class UserExtended(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        related_name='extended',
+        verbose_name=_('User'),
+        on_delete=models.CASCADE
+    )
+
+    image = models.ImageField(
+        verbose_name=_('Image'),
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return f'{self.user}'
+
+    def get_image(self):
+        try:
+            if self.image is not None:
+                return self.image.url
+        except ValueError:
+            pass
+        url = static('core/images/user.png')
+        return url
+
+    class Meta:
+        verbose_name = _('User Extended')
+        verbose_name_plural = _('Users Extended')
+
+
+def custom_user_get_extended(self):
+    if not hasattr(self, 'extended'):
+        self.extended = UserExtended.objects.create(user=self, image=None)
+    return self.extended
+
+
+User.add_to_class('get_extended', custom_user_get_extended)

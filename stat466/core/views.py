@@ -29,7 +29,8 @@ def league_3p_years(request, league_id):
     params = {
         'league': league,
         'statistic': league.get_statistic(),
-        'year_statistic': league.get_year_statistic()
+        'year_statistic': league.get_year_statistic(),
+        'players': [league.player_1, league.player_2, league.player_3]
     }
     return render(request, 'core/league_3p_years.html', params)
 

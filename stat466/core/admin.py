@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from core.models import LeagueOf2Players, LeagueOf3Players, LeagueOf4Players, \
-    Result2Players, Result3Players, Result4Players
+    Result2Players, Result3Players, Result4Players, UserExtended
 
 
 class LeagueOf2PlayersAdmin(admin.ModelAdmin):
@@ -42,12 +42,17 @@ class Result4PlayersAdmin(admin.ModelAdmin):
     list_filter = ('played_at', 'league')
 
 
+class UserExtendedAdmin(admin.ModelAdmin):
+    list_display = ('user', )
+
+
 admin.site.register(LeagueOf2Players, LeagueOf2PlayersAdmin)
 admin.site.register(LeagueOf3Players, LeagueOf3PlayersAdmin)
 admin.site.register(LeagueOf4Players, LeagueOf4PlayersAdmin)
 admin.site.register(Result2Players, Result2PlayersAdmin)
 admin.site.register(Result3Players, Result3PlayersAdmin)
 admin.site.register(Result4Players, Result4PlayersAdmin)
+admin.site.register(UserExtended, UserExtendedAdmin)
 
 # Change admin site title
 admin.site.site_header = _("Stat466 Administration")
