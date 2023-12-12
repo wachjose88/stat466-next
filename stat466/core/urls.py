@@ -12,4 +12,6 @@ urlpatterns = [
          name='core.league_4p_years'),
     path('league/3/<int:league_id>/year/<int:year>', views.league_3p_months,
          name='core.league_3p_months'),
+    path('league/3/<int:league_id>/year/<int:year>/month/<int:month>', views.league_3p_days,
+         name='core.league_3p_days'),
 ]

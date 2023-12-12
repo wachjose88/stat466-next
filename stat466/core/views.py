@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, get_object_or_404
 from core.models import LeagueOf3Players, LeagueOf2Players, LeagueOf4Players
 
@@ -49,3 +51,15 @@ def league_3p_months(request, league_id, year):
         'year': year
     }
     return render(request, 'core/league_3p_months.html', params)
+
+
+def league_3p_days(request, league_id, year, month):
+    league = get_object_or_404(LeagueOf3Players, pk=league_id)
+    params = {
+        'league': league,
+        'statistic': league.get_day_sum_statistic(year, month),
+        'day_statistic': league.get_day_statistic(year, month),
+        'year': year,
+        'month': datetime(year, month, 1)
+    }
+    return render(request, 'core/league_3p_days.html', params)

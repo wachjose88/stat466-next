@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count, Sum
-from django.db.models.functions import TruncYear, TruncMonth
+from django.db.models.functions import TruncYear, TruncMonth, TruncDay
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -126,6 +126,21 @@ class LeagueOf3Players(models.Model):
         }
         return combined
 
+    def get_day_sum_statistic(self, year, month):
+        statistic = self.results.filter(played_at__year=year,
+                                        played_at__month=month).aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'), Sum('player_3_points'))
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'],
+                                   statistic['player_3_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum'],
+            'num_results': statistic['id__count'],
+            'result': result
+        }
+        return combined
+
     def get_year_statistic(self):
         years = self.results.annotate(year=TruncYear('played_at'))\
             .values('year')\
@@ -174,6 +189,33 @@ class LeagueOf3Players(models.Model):
                 'month': month['month'],
                 'num_results': month['num_results'],
                 'sum_games': month['sum_games'],
+                'result': result
+            }
+            combined.append(combine)
+        return combined
+
+    def get_day_statistic(self, year, month):
+        days = self.results.filter(played_at__year=year, played_at__month=month)\
+            .annotate(day=TruncDay('played_at'))\
+            .values('day')\
+            .annotate(
+                num_results=Count('id'),
+                sum_games=Sum('num_games'),
+                sum_player_1=Sum('player_1_points'),
+                sum_player_2=Sum('player_2_points'),
+                sum_player_3=Sum('player_3_points')
+            )\
+            .values('day', 'num_results', 'sum_games', 'sum_player_1',
+                    'sum_player_2', 'sum_player_3')
+        combined = []
+        for day in days:
+            result = self.sort_results(
+                day['sum_player_1'], day['sum_player_2'], day['sum_player_3']
+            )
+            combine = {
+                'day': day['day'],
+                'num_results': day['num_results'],
+                'sum_games': day['sum_games'],
                 'result': result
             }
             combined.append(combine)
