@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count, Sum
-from django.db.models.functions import TruncYear
+from django.db.models.functions import TruncYear, TruncMonth
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -82,11 +82,49 @@ class LeagueOf3Players(models.Model):
         verbose_name=_('Player 3')
     )
 
+    @classmethod
+    def sort_results(cls, points_1, points_2, points_3):
+        result = [
+            ['player_1', points_1, 0],
+            ['player_2', points_2, 0],
+            ['player_3', points_3, 0],
+        ]
+        result = sorted(result, key=lambda player: player[1])
+        for i in range(0, 3):
+            result[i][2] = i + 1
+            if i > 0:
+                if result[i-1][1] == result[i][1]:
+                    result[i][2] = result[i-1][2]
+        result = sorted(result, key=lambda player: player[0])
+        return result
+
     def get_statistic(self):
         statistic = self.results.aggregate(
             Count('id'), Sum('num_games'), Sum('player_1_points'),
             Sum('player_2_points'), Sum('player_3_points'))
-        return statistic
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'],
+                                   statistic['player_3_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum'],
+            'num_results': statistic['id__count'],
+            'result': result
+        }
+        return combined
+
+    def get_month_sum_statistic(self, year):
+        statistic = self.results.filter(played_at__year=year).aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'), Sum('player_3_points'))
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'],
+                                   statistic['player_3_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum'],
+            'num_results': statistic['id__count'],
+            'result': result
+        }
+        return combined
 
     def get_year_statistic(self):
         years = self.results.annotate(year=TruncYear('played_at'))\
@@ -100,7 +138,46 @@ class LeagueOf3Players(models.Model):
             )\
             .values('year', 'num_results', 'sum_games', 'sum_player_1',
                     'sum_player_2', 'sum_player_3')
-        return years
+        combined = []
+        for year in years:
+            result = self.sort_results(
+                year['sum_player_1'], year['sum_player_2'], year['sum_player_3']
+            )
+            combine = {
+                'year': year['year'],
+                'num_results': year['num_results'],
+                'sum_games': year['sum_games'],
+                'result': result
+            }
+            combined.append(combine)
+        return combined
+
+    def get_month_statistic(self, year):
+        months = self.results.filter(played_at__year=year)\
+            .annotate(month=TruncMonth('played_at'))\
+            .values('month')\
+            .annotate(
+                num_results=Count('id'),
+                sum_games=Sum('num_games'),
+                sum_player_1=Sum('player_1_points'),
+                sum_player_2=Sum('player_2_points'),
+                sum_player_3=Sum('player_3_points')
+            )\
+            .values('month', 'num_results', 'sum_games', 'sum_player_1',
+                    'sum_player_2', 'sum_player_3')
+        combined = []
+        for month in months:
+            result = self.sort_results(
+                month['sum_player_1'], month['sum_player_2'], month['sum_player_3']
+            )
+            combine = {
+                'month': month['month'],
+                'num_results': month['num_results'],
+                'sum_games': month['sum_games'],
+                'result': result
+            }
+            combined.append(combine)
+        return combined
 
     def __str__(self):
         return str(self.title)

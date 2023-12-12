@@ -9,5 +9,7 @@ urlpatterns = [
     path('league/3/<int:league_id>', views.league_3p_years,
          name='core.league_3p_years'),
     path('league/4/<int:league_id>', views.league_4p_years,
-         name='core.league_4p_years')
+         name='core.league_4p_years'),
+    path('league/3/<int:league_id>/year/<int:year>', views.league_3p_months,
+         name='core.league_3p_months'),
 ]

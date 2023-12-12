@@ -1,25 +1,30 @@
 {% extends "core/base.html" %}
 {% load i18n %}
 {% load static %}
-{% block title %}{{ league.title }} - {% translate 'League of 3 Players' %}{% endblock %}
+{% block title %}{{ year }} - {{ league.title }} - {% translate 'League of 3 Players' %}{% endblock %}
 {% block breadcrumb %}
-<li class="breadcrumb-item active" aria-current="page">
-    {% translate 'League of 3 Players' %}
+<li class="breadcrumb-item"><a href="{% url 'core.league_3p_years' league_id=league.id %}">
+        {% translate 'League of 3 Players' %}
+    </a>
+</li>
+<li class="breadcrumb-item"><a href="{% url 'core.league_3p_years' league_id=league.id %}">
+        {{ league.title }}
+    </a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">
-    {{ league.title }}
+    {{ year }}
 </li>
 {% endblock %}
 {% block content %}
-    <h1>{{ league.title }}</h1>
+    <h1>{{ league.title }}: {{ year }}</h1>
     <p>{% translate 'League of 3 Players' %}</p>
 
-    {% if year_statistic %}
+    {% if month_statistic %}
     <h2>{% translate 'Statistic' %}</h2>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>{% translate 'Year' %}</th>
+                <th>{% translate 'Month' %}</th>
                 <th class="text-center">{% translate '# Results' %}</th>
                 <th class="text-center">{% translate '# Games' %}</th>
                 <th class="text-center">{{ league.player_1 }}</th>
@@ -28,26 +33,24 @@
             </tr>
         </thead>
         <tbody>
-            {% for year in year_statistic %}
+            {% for month in month_statistic %}
                 <tr>
                     <td>
-                        <a href="{% url 'core.league_3p_months' league_id=league.id year=year.year.year %}">
-                            {{ year.year.year }}
-                        </a>
+                            {{ month.month|date:"F" }}
                     </td>
-                    <td class="text-center">{{ year.num_results }}</td>
-                    <td class="text-center">{{ year.sum_games }}</td>
-                    <td class="text-center{% if year.result.0.2 == 1 %} text-bg-warning{% endif %}">
-                        {{ year.result.0.1 }}
-                        ({{ year.result.0.2 }})
+                    <td class="text-center">{{ month.num_results }}</td>
+                    <td class="text-center">{{ month.sum_games }}</td>
+                    <td class="text-center{% if month.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ month.result.0.1 }}
+                        ({{ month.result.0.2 }})
                     </td>
-                    <td class="text-center{% if year.result.1.2 == 1 %} text-bg-warning{% endif %}">
-                        {{ year.result.1.1 }}
-                        ({{ year.result.1.2 }})
+                    <td class="text-center{% if month.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ month.result.1.1 }}
+                        ({{ month.result.1.2 }})
                     </td>
-                    <td class="text-center{% if year.result.2.2 == 1 %} text-bg-warning{% endif %}">
-                        {{ year.result.2.1 }}
-                        ({{ year.result.2.2 }})
+                    <td class="text-center{% if month.result.2.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ month.result.2.1 }}
+                        ({{ month.result.2.2 }})
                     </td>
                 </tr>
             {% endfor %}

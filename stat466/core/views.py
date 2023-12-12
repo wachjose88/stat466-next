@@ -38,3 +38,14 @@ def league_4p_years(request, league_id):
         'league': league
     }
     return render(request, 'core/league_4p_years.html', params)
+
+
+def league_3p_months(request, league_id, year):
+    league = get_object_or_404(LeagueOf3Players, pk=league_id)
+    params = {
+        'league': league,
+        'statistic': league.get_month_sum_statistic(year),
+        'month_statistic': league.get_month_statistic(year),
+        'year': year
+    }
+    return render(request, 'core/league_3p_months.html', params)
