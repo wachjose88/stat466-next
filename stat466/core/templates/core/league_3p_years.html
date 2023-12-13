@@ -15,24 +15,22 @@
     <h1>{{ league.title }}</h1>
     <p>{% translate 'League of 3 Players' %}</p>
 
-    <div class="row">
-        {% for player in players %}
-            {% with player.get_extended as extended %}
-                <div class="col-md-3">
-                    <div class="card border-primary">
-                        <img src="{{ extended.get_image }}"
-                            class="card-img-top">
-                        <div class="card-header text-bg-success">
-                            {{ player }}
-                        </div>
-                    </div>
-                </div>
-            {% endwith %}
-        {% endfor %}
-    </div>
+    <ul>
+        <li>
+            {% translate 'Played Games' %}: {{ statistic.num_games }}
+        </li>
+        <li>
+            {% translate 'Results' %}: {{ statistic.num_results }}
+        </li>
+    </ul>
+
+    {% translate 'Won years' as won_years %}
+    {% with str_num_won=won_years %}
+    {% include 'core/league_3p_players.html' %}
+    {% endwith %}
 
     {% if year_statistic %}
-    <h2>{% translate 'Statistic' %}</h2>
+    <h2 class="spacer">{% translate 'Statistic' %}</h2>
     <table class="table table-hover">
         <thead>
             <tr>

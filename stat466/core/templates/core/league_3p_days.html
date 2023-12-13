@@ -24,8 +24,22 @@
     <h1>{{ league.title }}: {{ month|date:"F" }} {{ year }}</h1>
     <p>{% translate 'League of 3 Players' %}</p>
 
+    <ul>
+        <li>
+            {% translate 'Played Games' %}: {{ statistic.num_games }}
+        </li>
+        <li>
+            {% translate 'Results' %}: {{ statistic.num_results }}
+        </li>
+    </ul>
+
+    {% translate 'Won days' as won_days %}
+    {% with str_num_won=won_days %}
+    {% include 'core/league_3p_players.html' %}
+    {% endwith %}
+
     {% if day_statistic %}
-    <h2>{% translate 'Statistic' %}</h2>
+    <h2 class="spacer">{% translate 'Statistic' %}</h2>
     <table class="table table-hover">
         <thead>
             <tr>

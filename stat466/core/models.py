@@ -154,11 +154,22 @@ class LeagueOf3Players(models.Model):
             )\
             .values('year', 'num_results', 'sum_games', 'sum_player_1',
                     'sum_player_2', 'sum_player_3')
+        win_count = {
+            'player_1': 0,
+            'player_2': 0,
+            'player_3': 0,
+        }
         combined = []
         for year in years:
             result = self.sort_results(
                 year['sum_player_1'], year['sum_player_2'], year['sum_player_3']
             )
+            if result[0][2] == 1:
+                win_count['player_1'] += 1
+            if result[1][2] == 1:
+                win_count['player_2'] += 1
+            if result[2][2] == 1:
+                win_count['player_3'] += 1
             combine = {
                 'year': year['year'],
                 'num_results': year['num_results'],
@@ -166,7 +177,7 @@ class LeagueOf3Players(models.Model):
                 'result': result
             }
             combined.append(combine)
-        return combined
+        return combined, win_count
 
     def get_month_statistic(self, year):
         months = self.results.filter(played_at__year=year)\
@@ -181,11 +192,22 @@ class LeagueOf3Players(models.Model):
             )\
             .values('month', 'num_results', 'sum_games', 'sum_player_1',
                     'sum_player_2', 'sum_player_3')
+        win_count = {
+            'player_1': 0,
+            'player_2': 0,
+            'player_3': 0,
+        }
         combined = []
         for month in months:
             result = self.sort_results(
                 month['sum_player_1'], month['sum_player_2'], month['sum_player_3']
             )
+            if result[0][2] == 1:
+                win_count['player_1'] += 1
+            if result[1][2] == 1:
+                win_count['player_2'] += 1
+            if result[2][2] == 1:
+                win_count['player_3'] += 1
             combine = {
                 'month': month['month'],
                 'num_results': month['num_results'],
@@ -193,7 +215,7 @@ class LeagueOf3Players(models.Model):
                 'result': result
             }
             combined.append(combine)
-        return combined
+        return combined, win_count
 
     def get_day_statistic(self, year, month):
         days = self.results.filter(played_at__year=year, played_at__month=month)\
@@ -208,11 +230,22 @@ class LeagueOf3Players(models.Model):
             )\
             .values('day', 'num_results', 'sum_games', 'sum_player_1',
                     'sum_player_2', 'sum_player_3')
+        win_count = {
+            'player_1': 0,
+            'player_2': 0,
+            'player_3': 0,
+        }
         combined = []
         for day in days:
             result = self.sort_results(
                 day['sum_player_1'], day['sum_player_2'], day['sum_player_3']
             )
+            if result[0][2] == 1:
+                win_count['player_1'] += 1
+            if result[1][2] == 1:
+                win_count['player_2'] += 1
+            if result[2][2] == 1:
+                win_count['player_3'] += 1
             combine = {
                 'day': day['day'],
                 'num_results': day['num_results'],
@@ -220,7 +253,7 @@ class LeagueOf3Players(models.Model):
                 'result': result
             }
             combined.append(combine)
-        return combined
+        return combined, win_count
 
     def __str__(self):
         return str(self.title)
