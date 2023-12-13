@@ -1,0 +1,250 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-13 17:50+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: core/admin.py:58
+msgid "Stat466 Administration"
+msgstr "Stat466 Administration"
+
+#: core/admin.py:59
+msgid "Stat466 Admin"
+msgstr "Stat466 Admin"
+
+#: core/apps.py:8 core/templates/core/base.html:12
+#: core/templates/core/base.html:21
+msgid "Stat466"
+msgstr "Stat466"
+
+#: core/models.py:24 core/models.py:58 core/models.py:271
+msgid "Title"
+msgstr "Titel"
+
+#: core/models.py:29 core/models.py:63 core/models.py:276
+msgid "Created at"
+msgstr "Erstellt um"
+
+#: core/models.py:36 core/models.py:70 core/models.py:283
+#: core/templates/core/index.html:20 core/templates/core/index.html:53
+#: core/templates/core/index.html:92
+msgid "Player 1"
+msgstr "Spieler 1"
+
+#: core/models.py:43 core/models.py:77 core/models.py:290
+#: core/templates/core/index.html:25 core/templates/core/index.html:58
+#: core/templates/core/index.html:97
+msgid "Player 2"
+msgstr "Spieler 2"
+
+#: core/models.py:50
+msgid "League of 2 Players"
+msgstr "2er Schnapsen"
+
+#: core/models.py:51 core/templates/core/base.html:37
+#: core/templates/core/index.html:10
+msgid "Leagues of 2 Players"
+msgstr "2er Schnapsen"
+
+#: core/models.py:84 core/models.py:297 core/templates/core/index.html:63
+#: core/templates/core/index.html:102
+msgid "Player 3"
+msgstr "Spieler 3"
+
+#: core/models.py:263 core/templates/core/league_3p_days.html:5
+#: core/templates/core/league_3p_days.html:8
+#: core/templates/core/league_3p_days.html:25
+#: core/templates/core/league_3p_months.html:5
+#: core/templates/core/league_3p_months.html:8
+#: core/templates/core/league_3p_months.html:21
+#: core/templates/core/league_3p_years.html:5
+#: core/templates/core/league_3p_years.html:8
+#: core/templates/core/league_3p_years.html:16
+msgid "League of 3 Players"
+msgstr "3er Schnapsen"
+
+#: core/models.py:264 core/templates/core/base.html:48
+#: core/templates/core/index.html:43
+msgid "Leagues of 3 Players"
+msgstr "3er Schnapsen"
+
+#: core/models.py:304 core/templates/core/index.html:107
+msgid "Player 4"
+msgstr "Spieler 4"
+
+#: core/models.py:311
+msgid "League of 4 Players"
+msgstr "4er Schnapsen"
+
+#: core/models.py:312 core/templates/core/base.html:59
+#: core/templates/core/index.html:82
+msgid "Leagues of 4 Players"
+msgstr "4er Schnapsen"
+
+#: core/models.py:318 core/models.py:351 core/models.py:388
+msgid "Played at"
+msgstr "Gespielt am"
+
+#: core/models.py:322 core/models.py:355 core/models.py:392
+msgid "Number of games"
+msgstr "Anzahl der Bummerl"
+
+#: core/models.py:326 core/models.py:359 core/models.py:396
+msgid "Points Player 1"
+msgstr "Bummerl Spieler 1"
+
+#: core/models.py:330 core/models.py:363 core/models.py:400
+msgid "Points Player 2"
+msgstr "Bummerl Spieler 2"
+
+#: core/models.py:337 core/models.py:374 core/models.py:415
+msgid "League"
+msgstr "Liga"
+
+#: core/models.py:344
+msgid "Result of a 2 Player game"
+msgstr "2er Schnapsen Ergebnis"
+
+#: core/models.py:345
+msgid "Results of 2 Player games"
+msgstr "2er Schnapsen Ergebnisse"
+
+#: core/models.py:367 core/models.py:404
+msgid "Points Player 3"
+msgstr "Bummerl Spieler 3"
+
+#: core/models.py:381
+msgid "Result of a 3 Player game"
+msgstr "3er Schnapsen Ergebnis"
+
+#: core/models.py:382
+msgid "Results of 3 Player games"
+msgstr "3er Schnapsen Ergebnisse"
+
+#: core/models.py:408
+msgid "Points Player 4"
+msgstr "Bummerl Spieler 4"
+
+#: core/models.py:422
+msgid "Result of a 4 Player game"
+msgstr "4er Schnapsen Ergebnis"
+
+#: core/models.py:423
+msgid "Results of 4 Player games"
+msgstr "4er Schnapsen Ergebnisse"
+
+#: core/models.py:430
+msgid "User"
+msgstr "Benutzer"
+
+#: core/models.py:435
+msgid "Image"
+msgstr "Bild"
+
+#: core/models.py:453
+msgid "User Extended"
+msgstr "Benutzer Erweitert"
+
+#: core/models.py:454
+msgid "Users Extended"
+msgstr "Benutzer Erweitert"
+
+#: core/templates/core/base.html:32 core/templates/core/base.html:111
+#: core/templates/core/index.html:4
+msgid "Home"
+msgstr "Home"
+
+#: core/templates/core/base.html:70
+msgid "Language"
+msgstr "Sprache"
+
+#: core/templates/core/base.html:87
+msgid "Admin"
+msgstr "Admin"
+
+#: core/templates/core/index.html:6
+msgid "Hello and Welcome!"
+msgstr "Hallo und Willkommen!"
+
+#: core/templates/core/index.html:7
+msgid "This is a statistic tool for the card game Schnapsen."
+msgstr "Das ist ein Statistikprogramm für das Kartenspiel Schnapsen"
+
+#: core/templates/core/index.html:33 core/templates/core/index.html:71
+#: core/templates/core/index.html:115
+msgid "View results"
+msgstr "Ergebnisse anzeigen"
+
+#: core/templates/core/league_3p_days.html:29
+#: core/templates/core/league_3p_months.html:25
+#: core/templates/core/league_3p_years.html:20
+msgid "Played Games"
+msgstr "Gespielte Bummerl"
+
+#: core/templates/core/league_3p_days.html:32
+#: core/templates/core/league_3p_months.html:28
+#: core/templates/core/league_3p_years.html:23
+msgid "Results"
+msgstr "Ergebnisse"
+
+#: core/templates/core/league_3p_days.html:36
+msgid "Won days"
+msgstr "Gewonnene Tage"
+
+#: core/templates/core/league_3p_days.html:42
+#: core/templates/core/league_3p_months.html:38
+#: core/templates/core/league_3p_years.html:33
+msgid "Statistic"
+msgstr "Statistik"
+
+#: core/templates/core/league_3p_days.html:46
+msgid "Day"
+msgstr "Tag"
+
+#: core/templates/core/league_3p_days.html:47
+#: core/templates/core/league_3p_months.html:44
+#: core/templates/core/league_3p_years.html:39
+msgid "# Games"
+msgstr "# Bummerl"
+
+#: core/templates/core/league_3p_months.html:32
+msgid "Won months"
+msgstr "Gewonnene Monate"
+
+#: core/templates/core/league_3p_months.html:42
+msgid "Month"
+msgstr "Monate"
+
+#: core/templates/core/league_3p_months.html:43
+#: core/templates/core/league_3p_years.html:38
+msgid "# Results"
+msgstr "# Ergebnisse"
+
+#: core/templates/core/league_3p_players.html:18
+msgid "Rank"
+msgstr "Platzierung"
+
+#: core/templates/core/league_3p_players.html:22
+msgid "Points"
+msgstr "Bummerl"
+
+#: core/templates/core/league_3p_years.html:27
+msgid "Won years"
+msgstr "Gewonnene Jahre"
+
+#: core/templates/core/league_3p_years.html:37
+msgid "Year"
+msgstr "Jahr"

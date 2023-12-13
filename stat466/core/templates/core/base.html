@@ -23,6 +23,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form method="post" action="{% url 'set_language' %}" id="lang_form">
+                {% csrf_token %}
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"
@@ -63,19 +65,22 @@
                             {% endfor %}
                         </ul>
                     </li>
-                    {% comment %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?= lang('stat466.language.select'); ?>
+                            {% translate 'Language' %}
                         </a>
                         <ul class="dropdown-menu">
-                            <?php foreach (config('App')->supportedLocales as $locale): ?>
-                            <li><a class="dropdown-item" href="<?= base_url('setlang/' . $locale) ?>">
-                                    <?= lang('stat466.language.' . $locale); ?></a></li>
-                            <?php endforeach; ?>
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                            <li><a class="dropdown-item lang-sel-item{% if language.code == LANGUAGE_CODE %} active{% endif %}"
+                                   id="{{ language.code }}" href="#" onclick="submitLangForm({{ language.code }}); return false;">
+                                    {{ language.name_local }}</a></li>
+                            {% endfor %}
+                            <input id="lang-sel-hidden"
+                               name="language" type="hidden"
+                               value="{{ LANGUAGE_CODE }}"/>
                         </ul>
                     </li>
-                    {% endcomment %}
                     <li class="nav-item">
                         <a class="nav-link" target="_blank"
                            href="{% url 'admin:index' %}">
@@ -83,6 +88,7 @@
                         </a>
                     </li>
                 </ul>
+                </form>
             </div>
         </div>
     </nav>
@@ -133,5 +139,13 @@
 
 
     <script src="{% static "core/js/bootstrap.bundle.js" %}"></script>
+    <script>
+        function submitLangForm(lang) {
+            let form = document.getElementById("lang_form");
+            let lang_sel = document.getElementById("lang-sel-hidden");
+            lang_sel.value = lang.id;
+            form.submit();
+        }
+    </script>
     </body>
 </html>

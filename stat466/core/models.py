@@ -6,6 +6,7 @@ from django.db.models.functions import TruncYear, TruncMonth, TruncDay
 from django.templatetags.static import static
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views.i18n import set_language
 
 
 def custom_user_str(self):
