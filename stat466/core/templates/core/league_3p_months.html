@@ -27,6 +27,9 @@
         <li>
             {% translate 'Results' %}: {{ statistic.num_results }}
         </li>
+        <li>
+            {% translate 'Average Games per Result' %}: {{ statistic.avg_games_per_result }}
+        </li>
     </ul>
 
     {% translate 'Won months' as won_months %}
@@ -91,6 +94,85 @@
                 </th>
             </tr>
         </tfoot>
+    </table>
+    {% endif %}
+
+
+    {% if half_year %}
+    <h2 class="spacer">{% translate 'Half Year Statistic' %}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th class="text-center">{% translate '# Results' %}</th>
+                <th class="text-center">{% translate '# Games' %}</th>
+                <th class="text-center">{{ league.player_1 }}</th>
+                <th class="text-center">{{ league.player_2 }}</th>
+                <th class="text-center">{{ league.player_3 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for half in half_year %}
+                <tr>
+                    <td>
+                        {{ half.0 }}
+                    </td>
+                    <td class="text-center">{{ half.1.num_results }}</td>
+                    <td class="text-center">{{ half.1.num_games }}</td>
+                    <td class="text-center{% if half.1.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.0.1 }}
+                        ({{ half.1.result.0.2|ordinal }})
+                    </td>
+                    <td class="text-center{% if half.1.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.1.1 }}
+                        ({{ half.1.result.1.2|ordinal }})
+                    </td>
+                    <td class="text-center{% if half.1.result.2.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.2.1 }}
+                        ({{ half.1.result.2.2|ordinal }})
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if quarter_year %}
+    <h2 class="spacer">{% translate 'Quarter Year Statistic' %}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th class="text-center">{% translate '# Results' %}</th>
+                <th class="text-center">{% translate '# Games' %}</th>
+                <th class="text-center">{{ league.player_1 }}</th>
+                <th class="text-center">{{ league.player_2 }}</th>
+                <th class="text-center">{{ league.player_3 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for half in quarter_year %}
+                <tr>
+                    <td>
+                        {{ half.0 }}
+                    </td>
+                    <td class="text-center">{{ half.1.num_results }}</td>
+                    <td class="text-center">{{ half.1.num_games }}</td>
+                    <td class="text-center{% if half.1.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.0.1 }}
+                        ({{ half.1.result.0.2|ordinal }})
+                    </td>
+                    <td class="text-center{% if half.1.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.1.1 }}
+                        ({{ half.1.result.1.2|ordinal }})
+                    </td>
+                    <td class="text-center{% if half.1.result.2.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.2.1 }}
+                        ({{ half.1.result.2.2|ordinal }})
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
     {% endif %}
 {% endblock %}

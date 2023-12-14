@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from django.shortcuts import render, get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from core.models import LeagueOf3Players, LeagueOf2Players, LeagueOf4Players
 
 
@@ -55,6 +56,25 @@ def league_3p_months(request, league_id, year):
     statistic = league.get_month_sum_statistic(year)
     month_statistic = league.get_month_statistic(year)
     win_count = month_statistic[1]
+
+    half_year = [
+        (_('First half year'), league.get_month_period_statistic(
+            date(year, 1, 1), date(year, 6, 30))),
+        (_('Second half year'), league.get_month_period_statistic(
+            date(year, 7, 1), date(year, 12, 31)))
+    ]
+
+    quarter_year = [
+        (_('First quarter year'), league.get_month_period_statistic(
+            date(year, 1, 1), date(year, 3, 31))),
+        (_('Second quarter year'), league.get_month_period_statistic(
+            date(year, 4, 1), date(year, 6, 30))),
+        (_('Third quarter year'), league.get_month_period_statistic(
+            date(year, 7, 1), date(year, 9, 30))),
+        (_('Fourth quarter year'), league.get_month_period_statistic(
+            date(year, 10, 1), date(year, 12, 31))),
+    ]
+
     params = {
         'league': league,
         'statistic': statistic,
@@ -64,7 +84,9 @@ def league_3p_months(request, league_id, year):
             (league.player_1, statistic['result'][0], win_count['player_1']),
             (league.player_2, statistic['result'][1], win_count['player_2']),
             (league.player_3, statistic['result'][2], win_count['player_3'])
-        ]
+        ],
+        'half_year': half_year,
+        'quarter_year': quarter_year
     }
     return render(request, 'core/league_3p_months.html', params)
 

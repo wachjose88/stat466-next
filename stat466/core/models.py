@@ -91,6 +91,13 @@ class LeagueOf3Players(models.Model):
             ['player_2', points_2, 0],
             ['player_3', points_3, 0],
         ]
+        if None in [points_1, points_2, points_3]:
+            result = [
+                ['player_1', 0, 0],
+                ['player_2', 0, 0],
+                ['player_3', 0, 0],
+            ]
+            return result
         result = sorted(result, key=lambda player: player[1])
         for i in range(0, 3):
             result[i][2] = i + 1
@@ -110,7 +117,9 @@ class LeagueOf3Players(models.Model):
         combined = {
             'num_games': statistic['num_games__sum'],
             'num_results': statistic['id__count'],
-            'result': result
+            'result': result,
+            'avg_games_per_result': round(statistic['num_games__sum'] /
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
         }
         return combined
 
@@ -124,7 +133,9 @@ class LeagueOf3Players(models.Model):
         combined = {
             'num_games': statistic['num_games__sum'],
             'num_results': statistic['id__count'],
-            'result': result
+            'result': result,
+            'avg_games_per_result': round(statistic['num_games__sum'] /
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
         }
         return combined
 
@@ -138,6 +149,24 @@ class LeagueOf3Players(models.Model):
                                    statistic['player_3_points__sum'])
         combined = {
             'num_games': statistic['num_games__sum'],
+            'num_results': statistic['id__count'],
+            'result': result,
+            'avg_games_per_result': round(statistic['num_games__sum'] /
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
+        }
+        return combined
+
+    def get_month_period_statistic(self, from_date, to_date):
+        statistic = self.results.filter(played_at__gte=from_date,
+                                        played_at__lte=to_date).aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'), Sum('player_3_points'))
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'],
+                                   statistic['player_3_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum']
+                if statistic['num_games__sum'] is not None else 0,
             'num_results': statistic['id__count'],
             'result': result
         }
