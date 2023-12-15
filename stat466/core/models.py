@@ -87,15 +87,15 @@ class LeagueOf3Players(models.Model):
     @classmethod
     def sort_results(cls, points_1, points_2, points_3):
         result = [
-            ['player_1', points_1, 0],
-            ['player_2', points_2, 0],
-            ['player_3', points_3, 0],
+            ['player_1', points_1, 0, 0],
+            ['player_2', points_2, 0, 0],
+            ['player_3', points_3, 0, 0],
         ]
         if None in [points_1, points_2, points_3]:
             result = [
-                ['player_1', 0, 0],
-                ['player_2', 0, 0],
-                ['player_3', 0, 0],
+                ['player_1', 0, 0, 0],
+                ['player_2', 0, 0, 0],
+                ['player_3', 0, 0, 0],
             ]
             return result
         result = sorted(result, key=lambda player: player[1])
@@ -232,6 +232,14 @@ class LeagueOf3Players(models.Model):
             result = self.sort_results(
                 month['sum_player_1'], month['sum_player_2'], month['sum_player_3']
             )
+            if len(combined) > 0:
+                result[0][3] = combined[-1]['result'][0][3] + result[0][1]
+                result[1][3] = combined[-1]['result'][1][3] + result[1][1]
+                result[2][3] = combined[-1]['result'][2][3] + result[2][1]
+            else:
+                result[0][3] = result[0][1]
+                result[1][3] = result[1][1]
+                result[2][3] = result[2][1]
             if result[0][2] == 1:
                 win_count['player_1'] += 1
             if result[1][2] == 1:
@@ -270,6 +278,14 @@ class LeagueOf3Players(models.Model):
             result = self.sort_results(
                 day['sum_player_1'], day['sum_player_2'], day['sum_player_3']
             )
+            if len(combined) > 0:
+                result[0][3] = combined[-1]['result'][0][3] + result[0][1]
+                result[1][3] = combined[-1]['result'][1][3] + result[1][1]
+                result[2][3] = combined[-1]['result'][2][3] + result[2][1]
+            else:
+                result[0][3] = result[0][1]
+                result[1][3] = result[1][1]
+                result[2][3] = result[2][1]
             if result[0][2] == 1:
                 win_count['player_1'] += 1
             if result[1][2] == 1:

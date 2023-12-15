@@ -1,3 +1,7 @@
 .spacer {
-    margin-top: 1rem !important;
+    margin-top: 2rem !important;
+}
+.medal {
+    font-size: 5rem;
+    text-align: center;
 }

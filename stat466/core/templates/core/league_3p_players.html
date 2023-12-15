@@ -14,6 +14,15 @@
                         {{ player.0 }}
                     </div>
                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item medal">
+                            {% if player.1.2 == 1 %}
+                                🥇🏆
+                            {% elif player.1.2 == 2 %}
+                                🥈
+                            {% elif player.1.2 == 3 %}
+                                🥉
+                            {% endif %}
+                        </li>
                         <li class="list-group-item">
                             {% translate 'Rank' %}:
                             {{ player.1.2|ordinal }}

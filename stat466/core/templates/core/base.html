@@ -139,6 +139,7 @@
 
 
     <script src="{% static "core/js/bootstrap.bundle.js" %}"></script>
+    {% block script %}{% endblock %}
     <script>
         function submitLangForm(lang) {
             let form = document.getElementById("lang_form");

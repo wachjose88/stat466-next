@@ -90,5 +90,62 @@
             </tr>
         </tfoot>
     </table>
+
+    <div>
+      <canvas id="years_chart"></canvas>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {% if year_statistic %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          const ctx = document.getElementById('years_chart');
+
+          let year_labels = [];
+          let p1_data = [];
+          let p2_data = [];
+          let p3_data = [];
+          {% for year in year_statistic %}
+              year_labels.push('{{ year.year.year }}');
+              p1_data.push({{ year.result.0.1 }});
+              p2_data.push({{ year.result.1.1 }});
+              p3_data.push({{ year.result.2.1 }});
+          {% endfor %}
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: year_labels,
+              datasets: [
+                    {
+                        label: "{{ league.player_1 }}",
+                        backgroundColor: "#2c3e50",
+                        data: p1_data
+                    },
+                    {
+                        label: "{{ league.player_2 }}",
+                        backgroundColor: "#3498db",
+                        data: p2_data
+                    },
+                    {
+                        label: "{{ league.player_3 }}",
+                        backgroundColor: "#18bc9c",
+                        data: p3_data
+                    }
+                ]
+            },
+            options: {
+              barValueSpacing: 20,
+                scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        </script>
     {% endif %}
 {% endblock %}
