@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-15 14:51+0100\n"
+"POT-Creation-Date: 2023-12-23 11:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,13 +260,17 @@ msgstr "Halbjahresstatistik"
 msgid "Quarter Year Statistic"
 msgstr "Quartalsstatistik"
 
-#: core/templates/core/league_3p_players.html:18
+#: core/templates/core/league_3p_players.html:28
 msgid "Rank"
 msgstr "Platzierung"
 
-#: core/templates/core/league_3p_players.html:22
+#: core/templates/core/league_3p_players.html:32
 msgid "Points"
 msgstr "Bummerl"
+
+#: core/templates/core/league_3p_players.html:49
+msgid "Overall Points"
+msgstr "Gesammte Bummerl"
 
 #: core/templates/core/league_3p_years.html:30
 msgid "Won years"
