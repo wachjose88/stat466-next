@@ -2,3 +2,4 @@ pytz
 django>=4.2.0,<4.3
 django-debug-toolbar
 pillow
+django-admin-inline-paginator
