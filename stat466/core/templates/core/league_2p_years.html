@@ -2,10 +2,10 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
-{% block title %}{{ league.title }} - {% translate 'League of 3 Players' %}{% endblock %}
+{% block title %}{{ league.title }} - {% translate 'League of 2 Players' %}{% endblock %}
 {% block breadcrumb %}
 <li class="breadcrumb-item active" aria-current="page">
-    {% translate 'League of 3 Players' %}
+    {% translate 'League of 2 Players' %}
 </li>
 <li class="breadcrumb-item active" aria-current="page">
     {{ league.title }}
@@ -13,7 +13,7 @@
 {% endblock %}
 {% block content %}
     <h1>{{ league.title }}</h1>
-    <p>{% translate 'League of 3 Players' %}</p>
+    <p>{% translate 'League of 2 Players' %}</p>
 
     <ul>
         <li>
@@ -42,14 +42,13 @@
                 <th class="text-center">{% translate '# Games' %}</th>
                 <th class="text-center">{{ league.player_1 }}</th>
                 <th class="text-center">{{ league.player_2 }}</th>
-                <th class="text-center">{{ league.player_3 }}</th>
             </tr>
         </thead>
         <tbody>
             {% for year in year_statistic %}
                 <tr>
                     <td>
-                        <a href="{% url 'core.league_3p_months' league_id=league.id year=year.year.year %}">
+                        <a href="{% url 'core.league_2p_months' league_id=league.id year=year.year.year %}">
                             {{ year.year.year }}
                         </a>
                     </td>
@@ -62,10 +61,6 @@
                     <td class="text-center{% if year.result.1.2 == 1 %} text-bg-warning{% endif %}">
                         {{ year.result.1.1 }}
                         ({{ year.result.1.2|ordinal }})
-                    </td>
-                    <td class="text-center{% if year.result.2.2 == 1 %} text-bg-warning{% endif %}">
-                        {{ year.result.2.1 }}
-                        ({{ year.result.2.2|ordinal }})
                     </td>
                 </tr>
             {% endfor %}
@@ -82,10 +77,6 @@
                 <th class="text-center{% if statistic.result.1.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.1.1 }}
                     ({{ statistic.result.1.2|ordinal }})
-                </th>
-                <th class="text-center{% if statistic.result.2.2 == 1 %} text-bg-warning{% endif %}">
-                    {{ statistic.result.2.1 }}
-                    ({{ statistic.result.2.2|ordinal }})
                 </th>
             </tr>
         </tfoot>
@@ -108,12 +99,10 @@
           let year_labels = [];
           let p1_data = [];
           let p2_data = [];
-          let p3_data = [];
           {% for year in year_statistic %}
               year_labels.push('{{ year.year.year }}');
               p1_data.push({{ year.result.0.1 }});
               p2_data.push({{ year.result.1.1 }});
-              p3_data.push({{ year.result.2.1 }});
           {% endfor %}
 
           new Chart(ctx, {
@@ -130,11 +119,6 @@
                         label: "{{ league.player_2 }}",
                         backgroundColor: "#3498db",
                         data: p2_data
-                    },
-                    {
-                        label: "{{ league.player_3 }}",
-                        backgroundColor: "#18bc9c",
-                        data: p3_data
                     }
                 ]
             },
@@ -151,6 +135,6 @@
             }
           });
         </script>
-        {% include 'core/league_3p_overall.html' %}
+        {% include 'core/league_2p_overall.html' %}
     {% endif %}
 {% endblock %}

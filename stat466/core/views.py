@@ -19,10 +19,77 @@ def index(request):
 
 def league_2p_years(request, league_id):
     league = get_object_or_404(LeagueOf2Players, pk=league_id)
+    statistic = league.get_statistic()
+    year_statistic = league.get_year_statistic()
+    win_count = year_statistic[1]
     params = {
-        'league': league
+        'league': league,
+        'statistic': statistic,
+        'year_statistic': year_statistic[0],
+        'players': [
+            (league.player_1, statistic['result'][0], win_count['player_1']),
+            (league.player_2, statistic['result'][1], win_count['player_2'])
+        ]
     }
     return render(request, 'core/league_2p_years.html', params)
+
+
+def league_2p_months(request, league_id, year):
+    league = get_object_or_404(LeagueOf2Players, pk=league_id)
+    statistic = league.get_month_sum_statistic(year)
+    month_statistic = league.get_month_statistic(year)
+    win_count = month_statistic[1]
+
+    half_year = [
+        (_('First half year'), league.get_month_period_statistic(
+            date(year, 1, 1), date(year, 6, 30))),
+        (_('Second half year'), league.get_month_period_statistic(
+            date(year, 7, 1), date(year, 12, 31)))
+    ]
+
+    quarter_year = [
+        (_('First quarter year'), league.get_month_period_statistic(
+            date(year, 1, 1), date(year, 3, 31))),
+        (_('Second quarter year'), league.get_month_period_statistic(
+            date(year, 4, 1), date(year, 6, 30))),
+        (_('Third quarter year'), league.get_month_period_statistic(
+            date(year, 7, 1), date(year, 9, 30))),
+        (_('Fourth quarter year'), league.get_month_period_statistic(
+            date(year, 10, 1), date(year, 12, 31))),
+    ]
+
+    params = {
+        'league': league,
+        'statistic': statistic,
+        'month_statistic': month_statistic[0],
+        'year': year,
+        'players': [
+            (league.player_1, statistic['result'][0], win_count['player_1']),
+            (league.player_2, statistic['result'][1], win_count['player_2'])
+        ],
+        'half_year': half_year,
+        'quarter_year': quarter_year
+    }
+    return render(request, 'core/league_2p_months.html', params)
+
+
+def league_2p_days(request, league_id, year, month):
+    league = get_object_or_404(LeagueOf2Players, pk=league_id)
+    statistic = league.get_day_sum_statistic(year, month)
+    day_statistic = league.get_day_statistic(year, month)
+    win_count = day_statistic[1]
+    params = {
+        'league': league,
+        'statistic': statistic,
+        'day_statistic': day_statistic[0],
+        'year': year,
+        'month': datetime(year, month, 1),
+        'players': [
+            (league.player_1, statistic['result'][0], win_count['player_1']),
+            (league.player_2, statistic['result'][1], win_count['player_2'])
+        ]
+    }
+    return render(request, 'core/league_2p_days.html', params)
 
 
 def league_3p_years(request, league_id):

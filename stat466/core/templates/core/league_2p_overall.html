@@ -1,0 +1,17 @@
+<script>
+    const ctxall = document.getElementById('overall_chart');
+
+    new Chart(ctxall, {
+    type: 'pie',
+    data: {
+      labels: ['{{ league.player_1 }}', '{{ league.player_2 }}'],
+      datasets: [
+            {
+                label: "",
+                backgroundColor: ["#2c3e50", "#3498db", "#18bc9c"],
+                data: [{{ statistic.result.0.1 }}, {{ statistic.result.1.1 }}]
+            }
+        ]
+    }
+    });
+</script>

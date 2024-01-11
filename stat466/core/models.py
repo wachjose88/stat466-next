@@ -43,6 +43,201 @@ class LeagueOf2Players(models.Model):
         verbose_name=_('Player 2')
     )
 
+    @classmethod
+    def sort_results(cls, points_1, points_2):
+        result = [
+            ['player_1', points_1, 0, 0],
+            ['player_2', points_2, 0, 0]
+        ]
+        if None in [points_1, points_2]:
+            result = [
+                ['player_1', 0, 0, 0],
+                ['player_2', 0, 0, 0]
+            ]
+            return result
+        result = sorted(result, key=lambda player: player[1])
+        for i in range(0, 2):
+            result[i][2] = i + 1
+            if i > 0:
+                if result[i-1][1] == result[i][1]:
+                    result[i][2] = result[i-1][2]
+        result = sorted(result, key=lambda player: player[0])
+        return result
+
+    def get_statistic(self):
+        statistic = self.results.aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'))
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum'],
+            'num_results': statistic['id__count'],
+            'result': result,
+            'avg_games_per_result': round(statistic['num_games__sum'] /
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
+        }
+        return combined
+
+    def get_month_sum_statistic(self, year):
+        statistic = self.results.filter(played_at__year=year).aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'))
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum'],
+            'num_results': statistic['id__count'],
+            'result': result,
+            'avg_games_per_result': round(statistic['num_games__sum'] /
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
+        }
+        return combined
+
+    def get_month_period_statistic(self, from_date, to_date):
+        statistic = self.results.filter(played_at__gte=from_date,
+                                        played_at__lte=to_date).aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'))
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum']
+                if statistic['num_games__sum'] is not None else 0,
+            'num_results': statistic['id__count'],
+            'result': result
+        }
+        return combined
+
+    def get_day_sum_statistic(self, year, month):
+        statistic = self.results.filter(played_at__year=year,
+                                        played_at__month=month).aggregate(
+            Count('id'), Sum('num_games'), Sum('player_1_points'),
+            Sum('player_2_points'))
+        result = self.sort_results(statistic['player_1_points__sum'],
+                                   statistic['player_2_points__sum'])
+        combined = {
+            'num_games': statistic['num_games__sum'],
+            'num_results': statistic['id__count'],
+            'result': result,
+            'avg_games_per_result': round(statistic['num_games__sum'] /
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
+        }
+        return combined
+
+    def get_day_statistic(self, year, month):
+        days = self.results.filter(played_at__year=year, played_at__month=month)\
+            .annotate(day=TruncDay('played_at'))\
+            .values('day')\
+            .annotate(
+                num_results=Count('id'),
+                sum_games=Sum('num_games'),
+                sum_player_1=Sum('player_1_points'),
+                sum_player_2=Sum('player_2_points')
+            )\
+            .values('day', 'num_results', 'sum_games', 'sum_player_1',
+                    'sum_player_2')
+        win_count = {
+            'player_1': 0,
+            'player_2': 0
+        }
+        combined = []
+        for day in days:
+            result = self.sort_results(
+                day['sum_player_1'], day['sum_player_2']
+            )
+            if len(combined) > 0:
+                result[0][3] = combined[-1]['result'][0][3] + result[0][1]
+                result[1][3] = combined[-1]['result'][1][3] + result[1][1]
+            else:
+                result[0][3] = result[0][1]
+                result[1][3] = result[1][1]
+            if result[0][2] == 1:
+                win_count['player_1'] += 1
+            if result[1][2] == 1:
+                win_count['player_2'] += 1
+            combine = {
+                'day': day['day'],
+                'num_results': day['num_results'],
+                'sum_games': day['sum_games'],
+                'result': result
+            }
+            combined.append(combine)
+        return combined, win_count
+
+    def get_month_statistic(self, year):
+        months = self.results.filter(played_at__year=year)\
+            .annotate(month=TruncMonth('played_at'))\
+            .values('month')\
+            .annotate(
+                num_results=Count('id'),
+                sum_games=Sum('num_games'),
+                sum_player_1=Sum('player_1_points'),
+                sum_player_2=Sum('player_2_points')
+            )\
+            .values('month', 'num_results', 'sum_games', 'sum_player_1',
+                    'sum_player_2')
+        win_count = {
+            'player_1': 0,
+            'player_2': 0
+        }
+        combined = []
+        for month in months:
+            result = self.sort_results(
+                month['sum_player_1'], month['sum_player_2']
+            )
+            if len(combined) > 0:
+                result[0][3] = combined[-1]['result'][0][3] + result[0][1]
+                result[1][3] = combined[-1]['result'][1][3] + result[1][1]
+            else:
+                result[0][3] = result[0][1]
+                result[1][3] = result[1][1]
+            if result[0][2] == 1:
+                win_count['player_1'] += 1
+            if result[1][2] == 1:
+                win_count['player_2'] += 1
+            combine = {
+                'month': month['month'],
+                'num_results': month['num_results'],
+                'sum_games': month['sum_games'],
+                'result': result
+            }
+            combined.append(combine)
+        return combined, win_count
+
+    def get_year_statistic(self):
+        years = self.results.annotate(year=TruncYear('played_at'))\
+            .values('year')\
+            .annotate(
+                num_results=Count('id'),
+                sum_games=Sum('num_games'),
+                sum_player_1=Sum('player_1_points'),
+                sum_player_2=Sum('player_2_points')
+            )\
+            .values('year', 'num_results', 'sum_games', 'sum_player_1',
+                    'sum_player_2')
+        win_count = {
+            'player_1': 0,
+            'player_2': 0
+        }
+        combined = []
+        for year in years:
+            result = self.sort_results(
+                year['sum_player_1'], year['sum_player_2']
+            )
+            if result[0][2] == 1:
+                win_count['player_1'] += 1
+            if result[1][2] == 1:
+                win_count['player_2'] += 1
+            combine = {
+                'year': year['year'],
+                'num_results': year['num_results'],
+                'sum_games': year['sum_games'],
+                'result': result
+            }
+            combined.append(combine)
+        return combined, win_count
+
     def __str__(self):
         return str(self.title)
 
