@@ -36,8 +36,9 @@ class Result4PlayersInlineAdmin(TabularInlinePaginated):
 
 
 class LeagueOf4PlayersAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at', 'player_1', 'player_2',
-                    'player_3', 'player_4')
+    list_display = ('title', 'created_at', 'team_1_player_1',
+                    'team_1_player_2',
+                    'team_2_player_1', 'team_2_player_2')
     list_filter = ('created_at', )
     search_fields = ('title',)
     inlines = [Result4PlayersInlineAdmin]

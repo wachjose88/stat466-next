@@ -516,32 +516,32 @@ class LeagueOf4Players(models.Model):
         verbose_name=_('Created at')
     )
 
-    player_1 = models.ForeignKey(
+    team_1_player_1 = models.ForeignKey(
         User,
-        related_name='leagues_4p_p1',
+        related_name='leagues_4p_t1_p1',
         on_delete=models.CASCADE,
-        verbose_name=_('Player 1')
+        verbose_name=_('Team 1, Player 1')
     )
 
-    player_2 = models.ForeignKey(
+    team_1_player_2 = models.ForeignKey(
         User,
-        related_name='leagues_4p_p2',
+        related_name='leagues_4p_t1_p2',
         on_delete=models.CASCADE,
-        verbose_name=_('Player 2')
+        verbose_name=_('Team 1, Player 2')
     )
 
-    player_3 = models.ForeignKey(
+    team_2_player_1 = models.ForeignKey(
         User,
-        related_name='leagues_4p_p3',
+        related_name='leagues_4p_t2_p1',
         on_delete=models.CASCADE,
-        verbose_name=_('Player 3')
+        verbose_name=_('Team 2, Player 1')
     )
 
-    player_4 = models.ForeignKey(
+    team_2_player_2 = models.ForeignKey(
         User,
-        related_name='leagues_4p_p4',
+        related_name='leagues_4p_t2_p2',
         on_delete=models.CASCADE,
-        verbose_name=_('Player 4')
+        verbose_name=_('Team 2, Player 2')
     )
 
     def __str__(self):
@@ -632,20 +632,12 @@ class Result4Players(models.Model):
         verbose_name=_('Number of games')
     )
 
-    player_1_points = models.IntegerField(
-        verbose_name=_('Points Player 1')
+    team_1_points = models.IntegerField(
+        verbose_name=_('Points Team 1')
     )
 
-    player_2_points = models.IntegerField(
-        verbose_name=_('Points Player 2')
-    )
-
-    player_3_points = models.IntegerField(
-        verbose_name=_('Points Player 3')
-    )
-
-    player_4_points = models.IntegerField(
-        verbose_name=_('Points Player 4')
+    team_2_points = models.IntegerField(
+        verbose_name=_('Points Team 2')
     )
 
     league = models.ForeignKey(
