@@ -4,6 +4,15 @@ from core import views
 
 urlpatterns = [
     path('', views.index, name='core.index'),
+    path('league/<int:num_players>/<int:league_id>/certificate/player/<int:player_id>',
+         views.certificate,
+         name='core.certificate'),
+    path('league/<int:num_players>/<int:league_id>/year/<int:year>/certificate/player/<int:player_id>',
+         views.certificate,
+         name='core.certificate'),
+    path('league/<int:num_players>/<int:league_id>/year/<int:year>/month/<int:month>/certificate/player/<int:player_id>',
+         views.certificate,
+         name='core.certificate'),
     path('league/2/<int:league_id>', views.league_2p_years,
          name='core.league_2p_years'),
     path('league/3/<int:league_id>', views.league_3p_years,

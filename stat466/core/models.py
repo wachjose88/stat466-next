@@ -6,7 +6,7 @@ from django.db.models.functions import TruncYear, TruncMonth, TruncDay
 from django.templatetags.static import static
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.i18n import set_language
+from django.contrib.staticfiles import finders
 
 
 def custom_user_str(self):
@@ -278,6 +278,14 @@ class LeagueOf3Players(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Player 3')
     )
+
+    def get_player_num(self, player):
+        if self.player_1 == player:
+            return 0
+        elif self.player_2 == player:
+            return 1
+        elif self.player_3 == player:
+            return 2
 
     @classmethod
     def sort_results(cls, points_1, points_2, points_3):
@@ -671,6 +679,15 @@ class UserExtended(models.Model):
 
     def __str__(self):
         return f'{self.user}'
+
+    def get_image_path(self):
+        try:
+            if self.image is not None:
+                return self.image.path
+        except ValueError:
+            pass
+        url = finders.find('core/images/user-bg.png')
+        return url
 
     def get_image(self):
         try:

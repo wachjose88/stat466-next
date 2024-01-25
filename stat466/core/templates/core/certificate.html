@@ -1,0 +1,63 @@
+
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+
+<html>
+<head>
+    <title>{% translate 'Certificate of ' %} {{ league.title }}</title>
+    <style>
+        body {
+            font-family: serif;
+        }
+        #title-cert {
+            font-size: 20mm;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        #subtitle {
+            text-align: center;
+            font-size: 6mm;
+        }
+        #name {
+            text-align: center;
+            font-size: 10mm;
+            font-weight: bold;
+        }
+        #playerimg {
+            height: 90mm;
+            text-align: center;
+        }
+        table {
+            border: 1px solid black;
+            max-width: 140mm;
+        }
+    </style>
+</head>
+<body>
+<p id="title-cert">{% translate 'C e r t i f i c a t e' %}</p>
+<p id="subtitle">{{ league_type }}: {{ league.title }}
+    <br>
+    {{ subtitle }}</p>
+<p id="name">{{ player.first_name }} {{ player.last_name }}</p>
+<p id="subtitle">
+    {{ rank|ordinal }} {% translate 'Place' %}
+    <br>
+    {% blocktranslate with points=points overall=statistic.num_games %}
+        {{ points }} points at {{ overall }} games
+    {% endblocktranslate %}
+</p>
+<img src="{{ player.get_extended.get_image_path }}" id="playerimg">
+<table>
+    {% for p in result %}
+        <tr>
+            <td>{{ p.2|ordinal }}</td>
+            <td>{{ p.4 }}</td>
+            <td>{{ p.1 }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
