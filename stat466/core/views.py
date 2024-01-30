@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import date as date_filter
 from core.models import LeagueOf3Players, LeagueOf2Players, LeagueOf4Players
-from core.renderers import render_to_pdf
 
 
 def certificate(request, num_players, league_id, player_id,
@@ -28,7 +28,9 @@ def certificate(request, num_players, league_id, player_id,
             subtitle = _('Year:') + f' {year}'
         elif year is not None and month is not None:
             statistic = league.get_day_sum_statistic(year, month)
-            subtitle = _('Month:') + f' {month} {year}'
+            month_date = date(year=year, month=month, day=1)
+            month_formatted = date_filter(month_date, 'F')
+            subtitle = _('Month:') + f' {month_formatted} {year}'
         result = sorted(statistic['result'], key=lambda rank: rank[2])
         for p in result:
             if p[0] == 'player_1':
@@ -52,7 +54,7 @@ def certificate(request, num_players, league_id, player_id,
         params = {
             'league': league,
         }
-    return render_to_pdf('core/certificate.html', params)
+    return render(request, 'core/certificate.html', params)
 
 
 def index(request):

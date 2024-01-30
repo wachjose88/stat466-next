@@ -1,63 +1,104 @@
 
-{% load static %}
 {% load i18n %}
+{% load static %}
 {% load humanize %}
 
-<html>
-<head>
-    <title>{% translate 'Certificate of ' %} {{ league.title }}</title>
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            {% translate "Certificate - Stat466" %}
+        </title>
+        <link href="{% static "core/css/bootstrap.css" %}" rel="stylesheet">
+        <link href="{% static "core/css/style.css" %}" rel="stylesheet">
+    </head>
     <style>
-        body {
-            font-family: serif;
+        @media print {
+            @page {
+              size: A4;
+            }
         }
-        #title-cert {
+        .corner-img {
+            height: 25mm;
+        }
+        h1 {
             font-size: 20mm;
-            margin-bottom: 0;
-            padding-bottom: 0;
-            text-align: center;
             font-weight: bold;
+            color: #560001
         }
-        #subtitle {
-            text-align: center;
-            font-size: 6mm;
-        }
-        #name {
-            text-align: center;
-            font-size: 10mm;
+        h3 {
+            font-size: 15mm;
+            margin-top: 5mm;
             font-weight: bold;
+            color: #560001
         }
-        #playerimg {
+        .profile-img {
             height: 90mm;
-            text-align: center;
-        }
-        table {
-            border: 1px solid black;
-            max-width: 140mm;
+            border: #560001 double 5px;
+            padding: 3px;
+            margin-top: 15px;
+            margin-bottom: 30px;
         }
     </style>
-</head>
 <body>
-<p id="title-cert">{% translate 'C e r t i f i c a t e' %}</p>
-<p id="subtitle">{{ league_type }}: {{ league.title }}
-    <br>
-    {{ subtitle }}</p>
-<p id="name">{{ player.first_name }} {{ player.last_name }}</p>
-<p id="subtitle">
-    {{ rank|ordinal }} {% translate 'Place' %}
-    <br>
-    {% blocktranslate with points=points overall=statistic.num_games %}
-        {{ points }} points at {{ overall }} games
-    {% endblocktranslate %}
-</p>
-<img src="{{ player.get_extended.get_image_path }}" id="playerimg">
-<table>
-    {% for p in result %}
-        <tr>
-            <td>{{ p.2|ordinal }}</td>
-            <td>{{ p.4 }}</td>
-            <td>{{ p.1 }}</td>
-        </tr>
-    {% endfor %}
-</table>
+<div class="container-fluid border-test">
+    <div class="row">
+        <div class="col-6">
+            <img src="{% static 'core/images/herz.svg' %}"
+                class="corner-img">
+        </div>
+        <div class="col-6 text-end">
+            <img src="{% static 'core/images/schellen.svg' %}"
+                class="corner-img">
+        </div>
+    </div>
+    <h1 class="text-center">{% translate 'C e r t i f i c a t e' %}</h1>
+
+    <h5 class="text-center">{{ league_type }}: {{ league.title }}
+        <br>
+        {{ subtitle }}</h5>
+    <h3 class="text-center">{{ player.first_name }} {{ player.last_name }}</h3>
+    <h5 class="text-center">
+        {{ rank|ordinal }} {% translate 'Place' %}
+        <br>
+        {% blocktranslate with points=points overall=statistic.num_games %}
+            {{ points }} points at {{ overall }} games
+        {% endblocktranslate %}
+    </h5>
+    <div class="row">
+        <div class="col-6 offset-3 text-center">
+             <img src="{{ player.get_extended.get_image }}" class="img-fluid profile-img">
+        </div>
+    </div>
+
+    <div class="row" style="max-height: 40mm">
+        <div class="col-6 offset-3">
+            <table class="table table-striped">
+                {% for p in result %}
+                    <tr>
+                        <td>{{ p.2|ordinal }}</td>
+                        <td>{{ p.4 }}</td>
+                        <td>{{ p.1 }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-6">
+            <img src="{% static 'core/images/laub.svg' %}"
+                class="corner-img" style="margin-left: 2mm">
+        </div>
+        <div class="col-6 text-end">
+            <img src="{% static 'core/images/eichel.svg' %}"
+                class="corner-img" style="margin-right: 5mm">
+        </div>
+    </div>
+</div>
+    <script src="{% static "core/js/bootstrap.bundle.js" %}"></script>
 </body>
 </html>
