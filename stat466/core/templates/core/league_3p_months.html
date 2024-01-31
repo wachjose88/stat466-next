@@ -62,15 +62,15 @@
                     <td class="text-center">{{ month.sum_games }}</td>
                     <td class="text-center{% if month.result.0.2 == 1 %} text-bg-warning{% endif %}">
                         {{ month.result.0.1 }}
-                        ({{ month.result.0.2|ordinal }})
+                        ({{ month.result.0.2|ordinal }}{% if month.result.0.4 != 0 %}, +{{ month.result.0.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if month.result.1.2 == 1 %} text-bg-warning{% endif %}">
                         {{ month.result.1.1 }}
-                        ({{ month.result.1.2|ordinal }})
+                        ({{ month.result.1.2|ordinal }}{% if month.result.1.4 != 0 %}, +{{ month.result.1.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if month.result.2.2 == 1 %} text-bg-warning{% endif %}">
                         {{ month.result.2.1 }}
-                        ({{ month.result.2.2|ordinal }})
+                        ({{ month.result.2.2|ordinal }}{% if month.result.2.4 != 0 %}, +{{ month.result.2.4 }}{% endif %})
                     </td>
                 </tr>
             {% endfor %}
@@ -82,15 +82,15 @@
                 <th class="text-center">{{ statistic.num_games }}</th>
                 <th class="text-center{% if statistic.result.0.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.0.1 }}
-                    ({{ statistic.result.0.2|ordinal }})
+                    ({{ statistic.result.0.2|ordinal }}{% if statistic.result.0.4 != 0 %}, +{{ statistic.result.0.4 }}{% endif %})
                 </th>
                 <th class="text-center{% if statistic.result.1.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.1.1 }}
-                    ({{ statistic.result.1.2|ordinal }})
+                    ({{ statistic.result.1.2|ordinal }}{% if statistic.result.1.4 != 0 %}, +{{ statistic.result.1.4 }}{% endif %})
                 </th>
                 <th class="text-center{% if statistic.result.2.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.2.1 }}
-                    ({{ statistic.result.2.2|ordinal }})
+                    ({{ statistic.result.2.2|ordinal }}{% if statistic.result.2.4 != 0 %}, +{{ statistic.result.2.4 }}{% endif %})
                 </th>
             </tr>
         </tfoot>
@@ -129,15 +129,15 @@
                     <td class="text-center">{{ half.1.num_games }}</td>
                     <td class="text-center{% if half.1.result.0.2 == 1 %} text-bg-warning{% endif %}">
                         {{ half.1.result.0.1 }}
-                        ({{ half.1.result.0.2|ordinal }})
+                        ({{ half.1.result.0.2|ordinal }}{% if half.1.result.0.4 != 0 %}, +{{ half.1.result.0.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if half.1.result.1.2 == 1 %} text-bg-warning{% endif %}">
                         {{ half.1.result.1.1 }}
-                        ({{ half.1.result.1.2|ordinal }})
+                        ({{ half.1.result.1.2|ordinal }}{% if half.1.result.1.4 != 0 %}, +{{ half.1.result.1.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if half.1.result.2.2 == 1 %} text-bg-warning{% endif %}">
                         {{ half.1.result.2.1 }}
-                        ({{ half.1.result.2.2|ordinal }})
+                        ({{ half.1.result.2.2|ordinal }}{% if half.1.result.2.4 != 0 %}, +{{ half.1.result.2.4 }}{% endif %})
                     </td>
                 </tr>
             {% endfor %}
@@ -168,15 +168,15 @@
                     <td class="text-center">{{ half.1.num_games }}</td>
                     <td class="text-center{% if half.1.result.0.2 == 1 %} text-bg-warning{% endif %}">
                         {{ half.1.result.0.1 }}
-                        ({{ half.1.result.0.2|ordinal }})
+                        ({{ half.1.result.0.2|ordinal }}{% if half.1.result.0.4 != 0 %}, +{{ half.1.result.0.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if half.1.result.1.2 == 1 %} text-bg-warning{% endif %}">
                         {{ half.1.result.1.1 }}
-                        ({{ half.1.result.1.2|ordinal }})
+                        ({{ half.1.result.1.2|ordinal }}{% if half.1.result.1.4 != 0 %}, +{{ half.1.result.1.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if half.1.result.2.2 == 1 %} text-bg-warning{% endif %}">
                         {{ half.1.result.2.1 }}
-                        ({{ half.1.result.2.2|ordinal }})
+                        ({{ half.1.result.2.2|ordinal }}{% if half.1.result.2.4 != 0 %}, +{{ half.1.result.2.4 }}{% endif %})
                     </td>
                 </tr>
             {% endfor %}

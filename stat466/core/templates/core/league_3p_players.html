@@ -32,6 +32,12 @@
                             {% translate 'Points' %}:
                             {{ player.1.1 }}
                         </li>
+                        {% if player.1.4 != 0 %}
+                            <li class="list-group-item">
+                                {% translate 'Points behind' %}:
+                                {{ player.1.4 }}
+                            </li>
+                        {% endif %}
                         <li class="list-group-item">
                             {{ str_num_won }}:
                             {{ player.2 }}

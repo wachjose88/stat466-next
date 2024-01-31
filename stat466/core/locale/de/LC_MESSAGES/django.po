@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-30 17:20+0100\n"
+"POT-Creation-Date: 2024-01-31 17:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,11 +31,11 @@ msgstr "Stat466 Admin"
 msgid "Stat466"
 msgstr "Stat466"
 
-#: core/models.py:24 core/models.py:253 core/models.py:519
+#: core/models.py:24 core/models.py:253 core/models.py:522
 msgid "Title"
 msgstr "Titel"
 
-#: core/models.py:29 core/models.py:258 core/models.py:524
+#: core/models.py:29 core/models.py:258 core/models.py:527
 msgid "Created at"
 msgstr "Erstellt um"
 
@@ -71,7 +71,7 @@ msgstr "2er Schnapsen"
 msgid "Player 3"
 msgstr "Spieler 3"
 
-#: core/models.py:511 core/templates/core/league_3p_days.html:5
+#: core/models.py:514 core/templates/core/league_3p_days.html:5
 #: core/templates/core/league_3p_days.html:8
 #: core/templates/core/league_3p_days.html:25
 #: core/templates/core/league_3p_months.html:5
@@ -79,109 +79,109 @@ msgstr "Spieler 3"
 #: core/templates/core/league_3p_months.html:21
 #: core/templates/core/league_3p_years.html:5
 #: core/templates/core/league_3p_years.html:8
-#: core/templates/core/league_3p_years.html:16 core/views.py:41
+#: core/templates/core/league_3p_years.html:16 core/views.py:44
 msgid "League of 3 Players"
 msgstr "3er Schnapsen"
 
-#: core/models.py:512 core/templates/core/base.html:48
+#: core/models.py:515 core/templates/core/base.html:48
 #: core/templates/core/index.html:43
 msgid "Leagues of 3 Players"
 msgstr "3er Schnapsen"
 
-#: core/models.py:531
+#: core/models.py:534
 msgid "Team 1, Player 1"
 msgstr "Team 1, Spieler 1"
 
-#: core/models.py:538
+#: core/models.py:541
 msgid "Team 1, Player 2"
 msgstr "Team 1, Spieler 2"
 
-#: core/models.py:545
+#: core/models.py:548
 msgid "Team 2, Player 1"
 msgstr "Team 2, Spieler 1"
 
-#: core/models.py:552
+#: core/models.py:555
 msgid "Team 2, Player 2"
 msgstr "Team 2, Spieler 2"
 
-#: core/models.py:559
+#: core/models.py:562
 msgid "League of 4 Players"
 msgstr "4er Schnapsen"
 
-#: core/models.py:560 core/templates/core/base.html:59
+#: core/models.py:563 core/templates/core/base.html:59
 #: core/templates/core/index.html:82
 msgid "Leagues of 4 Players"
 msgstr "4er Schnapsen"
 
-#: core/models.py:566 core/models.py:599 core/models.py:636
+#: core/models.py:569 core/models.py:602 core/models.py:639
 msgid "Played at"
 msgstr "Gespielt am"
 
-#: core/models.py:570 core/models.py:603 core/models.py:640
+#: core/models.py:573 core/models.py:606 core/models.py:643
 msgid "Number of games"
 msgstr "Anzahl der Bummerl"
 
-#: core/models.py:574 core/models.py:607
+#: core/models.py:577 core/models.py:610
 msgid "Points Player 1"
 msgstr "Bummerl Spieler 1"
 
-#: core/models.py:578 core/models.py:611
+#: core/models.py:581 core/models.py:614
 msgid "Points Player 2"
 msgstr "Bummerl Spieler 2"
 
-#: core/models.py:585 core/models.py:622 core/models.py:655
+#: core/models.py:588 core/models.py:625 core/models.py:658
 msgid "League"
 msgstr "Liga"
 
-#: core/models.py:592
+#: core/models.py:595
 msgid "Result of a 2 Player game"
 msgstr "2er Schnapsen Ergebnis"
 
-#: core/models.py:593
+#: core/models.py:596
 msgid "Results of 2 Player games"
 msgstr "2er Schnapsen Ergebnisse"
 
-#: core/models.py:615
+#: core/models.py:618
 msgid "Points Player 3"
 msgstr "Bummerl Spieler 3"
 
-#: core/models.py:629
+#: core/models.py:632
 msgid "Result of a 3 Player game"
 msgstr "3er Schnapsen Ergebnis"
 
-#: core/models.py:630
+#: core/models.py:633
 msgid "Results of 3 Player games"
 msgstr "3er Schnapsen Ergebnisse"
 
-#: core/models.py:644
+#: core/models.py:647
 msgid "Points Team 1"
 msgstr "Bummerl Team 1"
 
-#: core/models.py:648
+#: core/models.py:651
 msgid "Points Team 2"
 msgstr "Bummerl Team 2"
 
-#: core/models.py:662
+#: core/models.py:665
 msgid "Result of a 4 Player game"
 msgstr "4er Schnapsen Ergebnis"
 
-#: core/models.py:663
+#: core/models.py:666
 msgid "Results of 4 Player games"
 msgstr "4er Schnapsen Ergebnisse"
 
-#: core/models.py:670
+#: core/models.py:673
 msgid "User"
 msgstr "Benutzer"
 
-#: core/models.py:675
+#: core/models.py:678
 msgid "Image"
 msgstr "Bild"
 
-#: core/models.py:702
+#: core/models.py:705
 msgid "User Extended"
 msgstr "Benutzer Erweitert"
 
-#: core/models.py:703
+#: core/models.py:706
 msgid "Users Extended"
 msgstr "Benutzer Erweitert"
 
@@ -356,47 +356,51 @@ msgstr "Platzierung"
 msgid "Points"
 msgstr "Bummerl"
 
-#: core/templates/core/league_3p_players.html:41
+#: core/templates/core/league_3p_players.html:37
+msgid "Points behind"
+msgstr "Bummerl dahinter"
+
+#: core/templates/core/league_3p_players.html:47
 msgid "Print certificate"
 msgstr "Urkunde drucken"
 
-#: core/templates/core/league_3p_players.html:54
+#: core/templates/core/league_3p_players.html:60
 msgid "Overall Points"
 msgstr "Gesammte Bummerl"
 
-#: core/views.py:24
+#: core/views.py:25
 msgid "Overall"
 msgstr "Gesammte Bummerl"
 
-#: core/views.py:27
+#: core/views.py:28
 msgid "Year:"
 msgstr "Jahr:"
 
-#: core/views.py:30
+#: core/views.py:33
 msgid "Month:"
 msgstr "Monat:"
 
-#: core/views.py:93 core/views.py:189
+#: core/views.py:96 core/views.py:192
 msgid "First half year"
 msgstr "Erstes Halbjahr"
 
-#: core/views.py:95 core/views.py:191
+#: core/views.py:98 core/views.py:194
 msgid "Second half year"
 msgstr "Zweites Halbjahr"
 
-#: core/views.py:100 core/views.py:196
+#: core/views.py:103 core/views.py:199
 msgid "First quarter year"
 msgstr "Erstes Quartal"
 
-#: core/views.py:102 core/views.py:198
+#: core/views.py:105 core/views.py:201
 msgid "Second quarter year"
 msgstr "Zweites Quartal"
 
-#: core/views.py:104 core/views.py:200
+#: core/views.py:107 core/views.py:203
 msgid "Third quarter year"
 msgstr "Drittes Quartal"
 
-#: core/views.py:106 core/views.py:202
+#: core/views.py:109 core/views.py:205
 msgid "Fourth quarter year"
 msgstr "Viertes Quartal"
 

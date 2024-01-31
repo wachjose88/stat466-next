@@ -60,15 +60,15 @@
                     <td class="text-center">{{ day.sum_games }}</td>
                     <td class="text-center{% if day.result.0.2 == 1 %} text-bg-warning{% endif %}">
                         {{ day.result.0.1 }}
-                        ({{ day.result.0.2|ordinal }})
+                        ({{ day.result.0.2|ordinal }}{% if day.result.0.4 != 0 %}, +{{ day.result.0.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if day.result.1.2 == 1 %} text-bg-warning{% endif %}">
                         {{ day.result.1.1 }}
-                        ({{ day.result.1.2|ordinal }})
+                        ({{ day.result.1.2|ordinal }}{% if day.result.1.4 != 0 %}, +{{ day.result.1.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if day.result.2.2 == 1 %} text-bg-warning{% endif %}">
                         {{ day.result.2.1 }}
-                        ({{ day.result.2.2|ordinal }})
+                        ({{ day.result.2.2|ordinal }}{% if day.result.2.4 != 0 %}, +{{ day.result.2.4 }}{% endif %})
                     </td>
                 </tr>
             {% endfor %}
@@ -79,15 +79,15 @@
                 <th class="text-center">{{ statistic.num_games }}</th>
                 <th class="text-center{% if statistic.result.0.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.0.1 }}
-                    ({{ statistic.result.0.2|ordinal }})
+                    ({{ statistic.result.0.2|ordinal }}{% if statistic.result.0.4 != 0 %}, +{{ statistic.result.0.4 }}{% endif %})
                 </th>
                 <th class="text-center{% if statistic.result.1.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.1.1 }}
-                    ({{ statistic.result.1.2|ordinal }})
+                    ({{ statistic.result.1.2|ordinal }}{% if statistic.result.1.4 != 0 %}, +{{ statistic.result.1.4 }}{% endif %})
                 </th>
                 <th class="text-center{% if statistic.result.2.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.2.1 }}
-                    ({{ statistic.result.2.2|ordinal }})
+                    ({{ statistic.result.2.2|ordinal }}{% if statistic.result.2.4 != 0 %}, +{{ statistic.result.2.4 }}{% endif %})
                 </th>
             </tr>
         </tfoot>

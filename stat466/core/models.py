@@ -290,15 +290,15 @@ class LeagueOf3Players(models.Model):
     @classmethod
     def sort_results(cls, points_1, points_2, points_3):
         result = [
-            ['player_1', points_1, 0, 0],
-            ['player_2', points_2, 0, 0],
-            ['player_3', points_3, 0, 0],
+            ['player_1', points_1, 0, 0, 0],
+            ['player_2', points_2, 0, 0, 0],
+            ['player_3', points_3, 0, 0, 0],
         ]
         if None in [points_1, points_2, points_3]:
             result = [
-                ['player_1', 0, 0, 0],
-                ['player_2', 0, 0, 0],
-                ['player_3', 0, 0, 0],
+                ['player_1', 0, 0, 0, 0],
+                ['player_2', 0, 0, 0, 0],
+                ['player_3', 0, 0, 0, 0],
             ]
             return result
         result = sorted(result, key=lambda player: player[1])
@@ -307,6 +307,9 @@ class LeagueOf3Players(models.Model):
             if i > 0:
                 if result[i-1][1] == result[i][1]:
                     result[i][2] = result[i-1][2]
+        for i in range(0, 3):
+            if result[i][2] != 1:
+                result[i][4] = result[i][1] - result[0][1]
         result = sorted(result, key=lambda player: player[0])
         return result
 
