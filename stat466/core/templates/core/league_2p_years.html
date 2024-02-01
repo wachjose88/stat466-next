@@ -56,11 +56,11 @@
                     <td class="text-center">{{ year.sum_games }}</td>
                     <td class="text-center{% if year.result.0.2 == 1 %} text-bg-warning{% endif %}">
                         {{ year.result.0.1 }}
-                        ({{ year.result.0.2|ordinal }})
+                        ({{ year.result.0.2|ordinal }}{% if year.result.0.4 != 0 %}, +{{ year.result.0.4 }}{% endif %})
                     </td>
                     <td class="text-center{% if year.result.1.2 == 1 %} text-bg-warning{% endif %}">
                         {{ year.result.1.1 }}
-                        ({{ year.result.1.2|ordinal }})
+                        ({{ year.result.1.2|ordinal }}{% if year.result.1.4 != 0 %}, +{{ year.result.1.4 }}{% endif %})
                     </td>
                 </tr>
             {% endfor %}
@@ -72,11 +72,11 @@
                 <th class="text-center">{{ statistic.num_games }}</th>
                 <th class="text-center{% if statistic.result.0.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.0.1 }}
-                    ({{ statistic.result.0.2|ordinal }})
+                    ({{ statistic.result.0.2|ordinal }}{% if statistic.result.0.4 != 0 %}, +{{ statistic.result.0.4 }}{% endif %})
                 </th>
                 <th class="text-center{% if statistic.result.1.2 == 1 %} text-bg-warning{% endif %}">
                     {{ statistic.result.1.1 }}
-                    ({{ statistic.result.1.2|ordinal }})
+                    ({{ statistic.result.1.2|ordinal }}{% if statistic.result.1.4 != 0 %}, +{{ statistic.result.1.4 }}{% endif %})
                 </th>
             </tr>
         </tfoot>

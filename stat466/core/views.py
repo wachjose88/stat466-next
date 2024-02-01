@@ -14,8 +14,33 @@ def certificate(request, num_players, league_id, player_id,
 
     if num_players == 2:
         league = get_object_or_404(LeagueOf2Players, pk=league_id)
+        player_num = league.get_player_num(player)
+        if year is None and month is None:
+            statistic = league.get_statistic()
+            subtitle = _('Overall')
+        elif year is not None and month is None:
+            statistic = league.get_month_sum_statistic(year)
+            subtitle = _('Year:') + f' {year}'
+        elif year is not None and month is not None:
+            statistic = league.get_day_sum_statistic(year, month)
+            month_date = date(year=year, month=month, day=1)
+            month_formatted = date_filter(month_date, 'F')
+            subtitle = _('Month:') + f' {month_formatted} {year}'
+        result = sorted(statistic['result'], key=lambda rank: rank[2])
+        for p in result:
+            if p[0] == 'player_1':
+                p.append(league.player_1)
+            elif p[0] == 'player_2':
+                p.append(league.player_2)
         params = {
             'league': league,
+            'league_type': _('League of 2 Players'),
+            'player': player,
+            'rank': statistic['result'][player_num][2],
+            'points': statistic['result'][player_num][1],
+            'statistic': statistic,
+            'result': result,
+            'subtitle': subtitle
         }
     elif num_players == 3:
         league = get_object_or_404(LeagueOf3Players, pk=league_id)
@@ -79,8 +104,16 @@ def league_2p_years(request, league_id):
         'statistic': statistic,
         'year_statistic': year_statistic[0],
         'players': [
-            (league.player_1, statistic['result'][0], win_count['player_1']),
-            (league.player_2, statistic['result'][1], win_count['player_2'])
+            (league.player_1, statistic['result'][0], win_count['player_1'],
+             reverse('core.certificate', kwargs={
+                 'num_players': 2, 'league_id': league_id,
+                 'player_id': league.player_1.id
+             })),
+            (league.player_2, statistic['result'][1], win_count['player_2'],
+             reverse('core.certificate', kwargs={
+                 'num_players': 2, 'league_id': league_id,
+                 'player_id': league.player_2.id
+             })),
         ]
     }
     return render(request, 'core/league_2p_years.html', params)
@@ -116,8 +149,16 @@ def league_2p_months(request, league_id, year):
         'month_statistic': month_statistic[0],
         'year': year,
         'players': [
-            (league.player_1, statistic['result'][0], win_count['player_1']),
-            (league.player_2, statistic['result'][1], win_count['player_2'])
+            (league.player_1, statistic['result'][0], win_count['player_1'],
+             reverse('core.certificate', kwargs={
+                 'num_players': 2, 'league_id': league_id,
+                 'player_id': league.player_1.id, 'year': year
+             })),
+            (league.player_2, statistic['result'][1], win_count['player_2'],
+             reverse('core.certificate', kwargs={
+                 'num_players': 2, 'league_id': league_id,
+                 'player_id': league.player_2.id, 'year': year
+             }))
         ],
         'half_year': half_year,
         'quarter_year': quarter_year
@@ -137,8 +178,16 @@ def league_2p_days(request, league_id, year, month):
         'year': year,
         'month': datetime(year, month, 1),
         'players': [
-            (league.player_1, statistic['result'][0], win_count['player_1']),
-            (league.player_2, statistic['result'][1], win_count['player_2'])
+            (league.player_1, statistic['result'][0], win_count['player_1'],
+             reverse('core.certificate', kwargs={
+                 'num_players': 2, 'league_id': league_id,
+                 'player_id': league.player_1.id, 'year': year, 'month': month
+             })),
+            (league.player_2, statistic['result'][1], win_count['player_2'],
+             reverse('core.certificate', kwargs={
+                 'num_players': 2, 'league_id': league_id,
+                 'player_id': league.player_2.id, 'year': year, 'month': month
+             }))
         ]
     }
     return render(request, 'core/league_2p_days.html', params)
