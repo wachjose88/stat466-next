@@ -7,6 +7,7 @@ from django.templatetags.static import static
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.staticfiles import finders
+from colorfield.fields import ColorField
 
 
 def custom_user_str(self):
@@ -687,8 +688,22 @@ class UserExtended(models.Model):
         null=True
     )
 
+    color = ColorField(
+        verbose_name=_('Color'),
+        blank=True,
+        null=True
+    )
+
     def __str__(self):
         return f'{self.user}'
+
+    def get_color(self):
+        try:
+            if self.color is not None:
+                return self.color
+        except ValueError:
+            pass
+        return None
 
     def get_image_path(self):
         try:

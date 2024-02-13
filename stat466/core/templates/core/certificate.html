@@ -26,17 +26,17 @@
         h1 {
             font-size: 20mm;
             font-weight: bold;
-            color: #560001
+            color: {{ player.get_extended.get_color|default_if_none:"#560001" }}
         }
         h3 {
             font-size: 15mm;
             margin-top: 5mm;
             font-weight: bold;
-            color: #560001
+            color: {{ player.get_extended.get_color|default_if_none:"#560001" }}
         }
         .profile-img {
             height: 90mm;
-            border: #560001 double 5px;
+            border: {{ player.get_extended.get_color|default_if_none:"#560001" }} double 5px;
             padding: 3px;
             margin-top: 15px;
             margin-bottom: 30px;

@@ -8,7 +8,11 @@
       datasets: [
             {
                 label: "",
-                backgroundColor: ["#2c3e50", "#3498db", "#18bc9c"],
+                backgroundColor: [
+                    "{{ league.player_1.get_extended.get_color|default_if_none:"#2c3e50" }}",
+                    "{{ league.player_2.get_extended.get_color|default_if_none:"#3498db" }}",
+                    "{{ league.player_3.get_extended.get_color|default_if_none:"#18bc9c" }}"
+                ],
                 data: [{{ statistic.result.0.1 }}, {{ statistic.result.1.1 }}, {{ statistic.result.2.1 }}]
             }
         ]

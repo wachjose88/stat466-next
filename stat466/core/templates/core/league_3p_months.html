@@ -223,17 +223,17 @@
               datasets: [
                     {
                         label: "{{ league.player_1 }}",
-                        backgroundColor: "#2c3e50",
+                        backgroundColor: "{{ league.player_1.get_extended.get_color|default_if_none:"#2c3e50" }}",
                         data: p1_data
                     },
                     {
                         label: "{{ league.player_2 }}",
-                        backgroundColor: "#3498db",
+                        backgroundColor: "{{ league.player_2.get_extended.get_color|default_if_none:"#3498db" }}",
                         data: p2_data
                     },
                     {
                         label: "{{ league.player_3 }}",
-                        backgroundColor: "#18bc9c",
+                        backgroundColor: "{{ league.player_3.get_extended.get_color|default_if_none:"#18bc9c" }}",
                         data: p3_data
                     }
                 ]
@@ -258,20 +258,20 @@
               datasets: [
                     {
                         label: "{{ league.player_1 }}",
-                        backgroundColor: "#2c3e50",
-                        borderColor: "#2c3e50",
+                        backgroundColor: "{{ league.player_1.get_extended.get_color|default_if_none:"#2c3e50" }}",
+                        borderColor: "{{ league.player_1.get_extended.get_color|default_if_none:"#2c3e50" }}",
                         data: p1_acc_data
                     },
                     {
                         label: "{{ league.player_2 }}",
-                        backgroundColor: "#3498db",
-                        borderColor: "#3498db",
+                        backgroundColor: "{{ league.player_2.get_extended.get_color|default_if_none:"#3498db" }}",
+                        borderColor: "{{ league.player_2.get_extended.get_color|default_if_none:"#3498db" }}",
                         data: p2_acc_data
                     },
                     {
                         label: "{{ league.player_3 }}",
-                        backgroundColor: "#18bc9c",
-                        borderColor: "#18bc9c",
+                        backgroundColor: "{{ league.player_3.get_extended.get_color|default_if_none:"#18bc9c" }}",
+                        borderColor: "{{ league.player_3.get_extended.get_color|default_if_none:"#18bc9c" }}",
                         data: p3_acc_data
                     }
                 ]
