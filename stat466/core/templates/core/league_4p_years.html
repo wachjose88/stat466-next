@@ -1,0 +1,141 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{ league.title }} - {% translate 'League of 4 Players' %}{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active" aria-current="page">
+    {% translate 'League of 4 Players' %}
+</li>
+<li class="breadcrumb-item active" aria-current="page">
+    {{ league.title }}
+</li>
+{% endblock %}
+{% block content %}
+    <h1>{{ league.title }}</h1>
+    <p>{% translate 'League of 4 Players' %}</p>
+
+    <ul>
+        <li>
+            {% translate 'Played Games' %}: {{ statistic.num_games }}
+        </li>
+        <li>
+            {% translate 'Results' %}: {{ statistic.num_results }}
+        </li>
+        <li>
+            {% translate 'Average Games per Result' %}: {{ statistic.avg_games_per_result }}
+        </li>
+    </ul>
+
+    {% translate 'Won years' as won_years %}
+    {% with str_num_won=won_years %}
+    {% include 'core/league_4p_teams.html' %}
+    {% endwith %}
+
+    {% if year_statistic %}
+    <h2 class="spacer">{% translate 'Statistic' %}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{% translate 'Year' %}</th>
+                <th class="text-center">{% translate '# Results' %}</th>
+                <th class="text-center">{% translate '# Games' %}</th>
+                <th class="text-center">{{ league.team_1_player_1 }},
+                    {{ league.team_1_player_2 }}</th>
+                <th class="text-center">{{ league.team_2_player_1 }},
+                    {{ league.team_2_player_2 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for year in year_statistic %}
+                <tr>
+                    <td>
+                        <a href="{% url 'core.league_4p_months' league_id=league.id year=year.year.year %}">
+                            {{ year.year.year }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ year.num_results }}</td>
+                    <td class="text-center">{{ year.sum_games }}</td>
+                    <td class="text-center{% if year.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ year.result.0.1 }}
+                        ({{ year.result.0.2|ordinal }}{% if year.result.0.4 != 0 %}, +{{ year.result.0.4 }}{% endif %})
+                    </td>
+                    <td class="text-center{% if year.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ year.result.1.1 }}
+                        ({{ year.result.1.2|ordinal }}{% if year.result.1.4 != 0 %}, +{{ year.result.1.4 }}{% endif %})
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>&nbsp;</th>
+                <th class="text-center">{{ statistic.num_results }}</th>
+                <th class="text-center">{{ statistic.num_games }}</th>
+                <th class="text-center{% if statistic.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                    {{ statistic.result.0.1 }}
+                    ({{ statistic.result.0.2|ordinal }}{% if statistic.result.0.4 != 0 %}, +{{ statistic.result.0.4 }}{% endif %})
+                </th>
+                <th class="text-center{% if statistic.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                    {{ statistic.result.1.1 }}
+                    ({{ statistic.result.1.2|ordinal }}{% if statistic.result.1.4 != 0 %}, +{{ statistic.result.1.4 }}{% endif %})
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div>
+      <canvas id="years_chart"></canvas>
+    </div>
+
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {% if year_statistic %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          const ctx = document.getElementById('years_chart');
+
+          let year_labels = [];
+          let p1_data = [];
+          let p2_data = [];
+          {% for year in year_statistic %}
+              year_labels.push('{{ year.year.year }}');
+              p1_data.push({{ year.result.0.1 }});
+              p2_data.push({{ year.result.1.1 }});
+          {% endfor %}
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: year_labels,
+              datasets: [
+                    {
+                        label: "{{ league.team_1_player_1 }}, {{ league.team_1_player_2 }}",
+                        backgroundColor: "#2c3e50",
+                        data: p1_data
+                    },
+                    {
+                        label: "{{ league.team_2_player_1 }}, {{ league.team_2_player_2 }}",
+                        backgroundColor: "#3498db",
+                        data: p2_data
+                    }
+                ]
+            },
+            options: {
+              barValueSpacing: 20,
+                scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                      precision: 0
+                  }
+                }
+              }
+            }
+          });
+        </script>
+    {% endif %}
+{% endblock %}

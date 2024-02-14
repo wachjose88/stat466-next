@@ -1,0 +1,189 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{ month|date:"F" }} - {{ year }} - {{ league.title }} - {% translate 'League of 4 Players' %}{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'core.league_4p_years' league_id=league.id %}">
+        {% translate 'League of 4 Players' %}
+    </a>
+</li>
+<li class="breadcrumb-item"><a href="{% url 'core.league_4p_years' league_id=league.id %}">
+        {{ league.title }}
+    </a>
+</li>
+<li class="breadcrumb-item"><a href="{% url 'core.league_4p_months' league_id=league.id year=year %}">
+        {{ year }}
+    </a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">
+    {{ month|date:"F" }}
+</li>
+{% endblock %}
+{% block content %}
+    <h1>{{ league.title }}: {{ month|date:"F" }} {{ year }}</h1>
+    <p>{% translate 'League of 4 Players' %}</p>
+
+    <ul>
+        <li>
+            {% translate 'Played Games' %}: {{ statistic.num_games }}
+        </li>
+        <li>
+            {% translate 'Results' %}: {{ statistic.num_results }}
+        </li>
+        <li>
+            {% translate 'Average Games per Result' %}: {{ statistic.avg_games_per_result }}
+        </li>
+    </ul>
+
+    {% translate 'Won days' as won_days %}
+    {% with str_num_won=won_days %}
+    {% include 'core/league_4p_teams.html' %}
+    {% endwith %}
+
+    {% if day_statistic %}
+    <h2 class="spacer">{% translate 'Statistic' %}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{% translate 'Day' %}</th>
+                <th class="text-center">{% translate '# Games' %}</th>
+                <th class="text-center">{{ league.team_1_player_1 }},
+                    {{ league.team_1_player_2 }}</th>
+                <th class="text-center">{{ league.team_2_player_1 }},
+                    {{ league.team_2_player_2 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in day_statistic %}
+                <tr>
+                    <td>{{ day.day|naturalday }}</td>
+                    <td class="text-center">{{ day.sum_games }}</td>
+                    <td class="text-center{% if day.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ day.result.0.1 }}
+                        ({{ day.result.0.2|ordinal }}{% if day.result.0.4 != 0 %}, +{{ day.result.0.4 }}{% endif %})
+                    </td>
+                    <td class="text-center{% if day.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ day.result.1.1 }}
+                        ({{ day.result.1.2|ordinal }}{% if day.result.1.4 != 0 %}, +{{ day.result.1.4 }}{% endif %})
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>&nbsp;</th>
+                <th class="text-center">{{ statistic.num_games }}</th>
+                <th class="text-center{% if statistic.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                    {{ statistic.result.0.1 }}
+                    ({{ statistic.result.0.2|ordinal }}{% if statistic.result.0.4 != 0 %}, +{{ statistic.result.0.4 }}{% endif %})
+                </th>
+                <th class="text-center{% if statistic.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                    {{ statistic.result.1.1 }}
+                    ({{ statistic.result.1.2|ordinal }}{% if statistic.result.1.4 != 0 %}, +{{ statistic.result.1.4 }}{% endif %})
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div>
+      <canvas id="days_chart"></canvas>
+    </div>
+    <h2 class="spacer">{% translate 'Days History' %}</h2>
+    <div>
+      <canvas id="days_acc_chart"></canvas>
+    </div>
+    {% endif %}
+{% endblock %}
+{% block script %}
+    {% if day_statistic %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          const ctx = document.getElementById('days_chart');
+          const ctxacc = document.getElementById('days_acc_chart');
+
+          let day_labels = [];
+          let day_acc_labels = [];
+          let p1_data = [];
+          let p2_data = [];
+          let p1_acc_data = [];
+          let p2_acc_data = [];
+
+          p1_acc_data.push(0);
+          p2_acc_data.push(0);
+          day_acc_labels.push(' ');
+          {% for day in day_statistic %}
+              day_labels.push('{{ day.day|naturalday }}');
+              day_acc_labels.push('{{ day.day|naturalday }}');
+              p1_data.push({{ day.result.0.1 }});
+              p2_data.push({{ day.result.1.1 }});
+              p1_acc_data.push({{ day.result.0.3 }});
+              p2_acc_data.push({{ day.result.1.3 }});
+          {% endfor %}
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: day_labels,
+              datasets: [
+                    {
+                        label: "{{ league.team_1_player_1 }}, {{ league.team_1_player_2 }}",
+                        backgroundColor: "#2c3e50",
+                        data: p1_data
+                    },
+                    {
+                        label: "{{ league.team_2_player_1 }}, {{ league.team_2_player_2 }}",
+                        backgroundColor: "#3498db",
+                        data: p2_data
+                    }
+                ]
+            },
+            options: {
+              barValueSpacing: 20,
+                scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                      precision: 0
+                  }
+                }
+              }
+            }
+          });
+
+          new Chart(ctxacc, {
+            type: 'line',
+            data: {
+              labels: day_acc_labels,
+              datasets: [
+                    {
+                        label: "{{ league.team_1_player_1 }}, {{ league.team_1_player_2 }}",
+                        backgroundColor: "#2c3e50",
+                        borderColor: "#2c3e50",
+                        data: p1_acc_data
+                    },
+                    {
+                        label: "{{ league.team_2_player_1 }}, {{ league.team_2_player_2 }}",
+                        backgroundColor: "#3498db",
+                        borderColor: "#3498db",
+                        data: p2_acc_data
+                    }
+                ]
+            },
+            options: {
+              barValueSpacing: 20,
+                scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                      precision: 0
+                  }
+                }
+              }
+            }
+          });
+        </script>
+        {% include 'core/league_2p_overall.html' %}
+    {% endif %}
+{% endblock %}

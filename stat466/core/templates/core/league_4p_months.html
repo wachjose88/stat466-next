@@ -1,0 +1,264 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{ year }} - {{ league.title }} - {% translate 'League of 4 Players' %}{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'core.league_4p_years' league_id=league.id %}">
+        {% translate 'League of 4 Players' %}
+    </a>
+</li>
+<li class="breadcrumb-item"><a href="{% url 'core.league_4p_years' league_id=league.id %}">
+        {{ league.title }}
+    </a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">
+    {{ year }}
+</li>
+{% endblock %}
+{% block content %}
+    <h1>{{ league.title }}: {{ year }}</h1>
+    <p>{% translate 'League of 4 Players' %}</p>
+
+    <ul>
+        <li>
+            {% translate 'Played Games' %}: {{ statistic.num_games }}
+        </li>
+        <li>
+            {% translate 'Results' %}: {{ statistic.num_results }}
+        </li>
+        <li>
+            {% translate 'Average Games per Result' %}: {{ statistic.avg_games_per_result }}
+        </li>
+    </ul>
+
+    {% translate 'Won months' as won_months %}
+    {% with str_num_won=won_months %}
+    {% include 'core/league_4p_teams.html' %}
+    {% endwith %}
+
+    {% if month_statistic %}
+    <h2 class="spacer">{% translate 'Statistic' %}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{% translate 'Month' %}</th>
+                <th class="text-center">{% translate '# Results' %}</th>
+                <th class="text-center">{% translate '# Games' %}</th>
+                <th class="text-center">{{ league.team_1_player_1 }},
+                    {{ league.team_1_player_2 }}</th>
+                <th class="text-center">{{ league.team_2_player_1 }},
+                    {{ league.team_2_player_2 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for month in month_statistic %}
+                <tr>
+                    <td>
+                        <a href="{% url 'core.league_4p_days' league_id=league.id year=month.month.year month=month.month.month %}">
+                            {{ month.month|date:"F" }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ month.num_results }}</td>
+                    <td class="text-center">{{ month.sum_games }}</td>
+                    <td class="text-center{% if month.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ month.result.0.1 }}
+                        ({{ month.result.0.2|ordinal }}{% if month.result.0.4 != 0 %}, +{{ month.result.0.4 }}{% endif %})
+                    </td>
+                    <td class="text-center{% if month.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ month.result.1.1 }}
+                        ({{ month.result.1.2|ordinal }}{% if month.result.1.4 != 0 %}, +{{ month.result.1.4 }}{% endif %})
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>&nbsp;</th>
+                <th class="text-center">{{ statistic.num_results }}</th>
+                <th class="text-center">{{ statistic.num_games }}</th>
+                <th class="text-center{% if statistic.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                    {{ statistic.result.0.1 }}
+                    ({{ statistic.result.0.2|ordinal }}{% if statistic.result.0.4 != 0 %}, +{{ statistic.result.0.4 }}{% endif %})
+                </th>
+                <th class="text-center{% if statistic.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                    {{ statistic.result.1.1 }}
+                    ({{ statistic.result.1.2|ordinal }}{% if statistic.result.1.4 != 0 %}, +{{ statistic.result.1.4 }}{% endif %})
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div>
+      <canvas id="months_chart"></canvas>
+    </div>
+    <h2 class="spacer">{% translate 'Month History' %}</h2>
+    <div>
+      <canvas id="months_acc_chart"></canvas>
+    </div>
+    {% endif %}
+
+
+    {% if half_year %}
+    <h2 class="spacer">{% translate 'Half Year Statistic' %}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th class="text-center">{% translate '# Results' %}</th>
+                <th class="text-center">{% translate '# Games' %}</th>
+                <th class="text-center">{{ league.team_1_player_1 }},
+                    {{ league.team_1_player_2 }}</th>
+                <th class="text-center">{{ league.team_2_player_1 }},
+                    {{ league.team_2_player_2 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for half in half_year %}
+                <tr>
+                    <td>
+                        {{ half.0 }}
+                    </td>
+                    <td class="text-center">{{ half.1.num_results }}</td>
+                    <td class="text-center">{{ half.1.num_games }}</td>
+                    <td class="text-center{% if half.1.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.0.1 }}
+                        ({{ half.1.result.0.2|ordinal }}{% if half.1.result.0.4 != 0 %}, +{{ half.1.result.0.4 }}{% endif %})
+                    </td>
+                    <td class="text-center{% if half.1.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.1.1 }}
+                        ({{ half.1.result.1.2|ordinal }}{% if half.1.result.1.4 != 0 %}, +{{ half.1.result.1.4 }}{% endif %})
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if quarter_year %}
+    <h2 class="spacer">{% translate 'Quarter Year Statistic' %}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th class="text-center">{% translate '# Results' %}</th>
+                <th class="text-center">{% translate '# Games' %}</th>
+                <th class="text-center">{{ league.team_1_player_1 }},
+                    {{ league.team_1_player_2 }}</th>
+                <th class="text-center">{{ league.team_2_player_1 }},
+                    {{ league.team_2_player_2 }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for half in quarter_year %}
+                <tr>
+                    <td>
+                        {{ half.0 }}
+                    </td>
+                    <td class="text-center">{{ half.1.num_results }}</td>
+                    <td class="text-center">{{ half.1.num_games }}</td>
+                    <td class="text-center{% if half.1.result.0.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.0.1 }}
+                        ({{ half.1.result.0.2|ordinal }}{% if half.1.result.0.4 != 0 %}, +{{ half.1.result.0.4 }}{% endif %})
+                    </td>
+                    <td class="text-center{% if half.1.result.1.2 == 1 %} text-bg-warning{% endif %}">
+                        {{ half.1.result.1.1 }}
+                        ({{ half.1.result.1.2|ordinal }}{% if half.1.result.1.4 != 0 %}, +{{ half.1.result.1.4 }}{% endif %})
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}
+{% block script %}
+    {% if month_statistic %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          const ctx = document.getElementById('months_chart');
+          const ctxacc = document.getElementById('months_acc_chart');
+
+          let month_labels = [];
+          let month_acc_labels = [];
+          let p1_data = [];
+          let p2_data = [];
+          let p1_acc_data = [];
+          let p2_acc_data = [];
+
+          p1_acc_data.push(0);
+          p2_acc_data.push(0);
+          month_acc_labels.push(' ');
+          {% for month in month_statistic %}
+              month_labels.push('{{ month.month|date:"F" }}');
+              month_acc_labels.push('{{ month.month|date:"F" }}');
+              p1_data.push({{ month.result.0.1 }});
+              p2_data.push({{ month.result.1.1 }});
+              p1_acc_data.push({{ month.result.0.3 }});
+              p2_acc_data.push({{ month.result.1.3 }});
+          {% endfor %}
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: month_labels,
+              datasets: [
+                    {
+                        label: "{{ league.team_1_player_1 }}, {{ league.team_1_player_2 }}",
+                        backgroundColor: "#2c3e50",
+                        data: p1_data
+                    },
+                    {
+                        label: "{{ league.team_2_player_1 }}, {{ league.team_2_player_2 }}",
+                        backgroundColor: "#3498db",
+                        data: p2_data
+                    }
+                ]
+            },
+            options: {
+              barValueSpacing: 20,
+                scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                      precision: 0
+                  }
+                }
+              }
+            }
+          });
+
+          new Chart(ctxacc, {
+            type: 'line',
+            data: {
+              labels: month_acc_labels,
+              datasets: [
+                    {
+                        label: "{{ league.team_1_player_1 }}, {{ league.team_1_player_2 }}",
+                        backgroundColor: "#2c3e50",
+                        borderColor: "#2c3e50",
+                        data: p1_acc_data
+                    },
+                    {
+                        label: "{{ league.team_2_player_1 }}, {{ league.team_2_player_2 }}",
+                        backgroundColor: "#3498db",
+                        borderColor: "#3498db",
+                        data: p2_acc_data
+                    }
+                ]
+            },
+            options: {
+              barValueSpacing: 20,
+                scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                      precision: 0
+                  }
+                }
+              }
+            }
+          });
+        </script>
+    {% endif %}
+{% endblock %}

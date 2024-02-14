@@ -1,0 +1,68 @@
+
+
+
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+<div class="row">
+    {% for team in teams %}
+        <div class="col-md-6">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            {% with team.0.0.get_extended as extended %}
+                                <img src="{{ extended.get_image }}"
+                                    class="img-fluid">
+                            {% endwith %}
+                        </div>
+                        <div class="col-6">
+                            {% with team.0.1.get_extended as extended %}
+                                <img src="{{ extended.get_image }}"
+                                    class="img-fluid">
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header text-bg-success">
+                    {{ team.0.0 }}, {{ team.0.1 }}
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item medal">
+                        {% if team.1.2 == 1 %}
+                            🥇🏆
+                        {% elif team.1.2 == 2 %}
+                            🥈
+                        {% elif team.1.2 == 3 %}
+                            🥉
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        {% translate 'Rank' %}:
+                        {{ team.1.2|ordinal }}
+                    </li>
+                    <li class="list-group-item">
+                        {% translate 'Points' %}:
+                        {{ team.1.1 }}
+                    </li>
+                    {% if team.1.4 != 0 %}
+                        <li class="list-group-item">
+                            {% translate 'Points behind' %}:
+                            {{ team.1.4 }}
+                        </li>
+                    {% endif %}
+                    <li class="list-group-item">
+                        {{ str_num_won }}:
+                        {{ team.2 }}
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{{ team.3 }}" target="_blank">
+                            {% translate 'Print certificate' %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
