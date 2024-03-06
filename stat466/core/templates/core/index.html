@@ -87,26 +87,32 @@
                         <div class="card-header text-bg-success">
                             {{ league_4p.title }}
                         </div>
+                        <div class="card-header text-bg-info">
+                            {% translate 'Team 1' %}
+                        </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 {% translate 'Player 1' %}:
-                                {{ league_4p.player_1.first_name }}
-                                {{ league_4p.player_1.last_name }}
+                                {{ league_4p.team_1_player_1.first_name }}
+                                {{ league_4p.team_1_player_1.last_name }}
                             </li>
                             <li class="list-group-item">
                                 {% translate 'Player 2' %}:
-                                {{ league_4p.player_2.first_name }}
-                                {{ league_4p.player_2.last_name }}
+                                {{ league_4p.team_1_player_2.first_name }}
+                                {{ league_4p.team_1_player_2.last_name }}
+                            </li>
+                            <div class="card-header text-bg-info">
+                                {% translate 'Team 2' %}
+                            </div>
+                            <li class="list-group-item">
+                                {% translate 'Player 1' %}:
+                                {{ league_4p.team_2_player_1.first_name }}
+                                {{ league_4p.team_2_player_1.last_name }}
                             </li>
                             <li class="list-group-item">
-                                {% translate 'Player 3' %}:
-                                {{ league_4p.player_3.first_name }}
-                                {{ league_4p.player_3.last_name }}
-                            </li>
-                            <li class="list-group-item">
-                                {% translate 'Player 4' %}:
-                                {{ league_4p.player_4.first_name }}
-                                {{ league_4p.player_4.last_name }}
+                                {% translate 'Player 2' %}:
+                                {{ league_4p.team_2_player_2.first_name }}
+                                {{ league_4p.team_2_player_2.last_name }}
                             </li>
                         </ul>
                         <div class="card-body">
