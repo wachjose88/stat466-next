@@ -370,11 +370,11 @@ msgstr "Urkunde drucken"
 
 #: core/templates/core/league_3p_players.html:60
 msgid "Overall Points"
-msgstr "Gesammte Bummerl"
+msgstr "Gesamte Bummerl"
 
 #: core/views.py:20 core/views.py:50
 msgid "Overall"
-msgstr "Gesammte Bummerl"
+msgstr "Gesamte Bummerl"
 
 #: core/views.py:23 core/views.py:53
 msgid "Year:"
