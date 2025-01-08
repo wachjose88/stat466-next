@@ -105,6 +105,10 @@ def certificate(request, num_players, league_id, player_id,
             'subtitle': subtitle
         }
         return render(request, 'core/certificate_4p.html', params)
+    if year is not None and month is None:
+        params['year'] = year
+    else:
+        params['year'] = None
     return render(request, 'core/certificate.html', params)
 
 

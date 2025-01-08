@@ -41,6 +41,18 @@
             margin-top: 15px;
             margin-bottom: 30px;
         }
+        .year {
+            writing-mode: sideways-lr;
+            font-size: 83px;
+            font-weight: bold;
+            text-shadow: 2px 2px 3px {{ player.get_extended.get_color|default_if_none:"#560001" }};
+        }
+        .year-r {
+            writing-mode: sideways-lr;
+            font-size: 83px;
+            font-weight: bold;
+            text-shadow: 2px 2px 3px {{ player.get_extended.get_color|default_if_none:"#560001" }};
+        }
     </style>
 <body>
 <div class="container-fluid border-test">
@@ -68,9 +80,21 @@
         {% endblocktranslate %}
     </h5>
     <div class="row">
-        <div class="col-6 offset-3 text-center">
-             <img src="{{ player.get_extended.get_image }}" class="img-fluid profile-img">
-        </div>
+        {% if year %}
+            <div class="col-3 year text-center">
+                 {{ year }}
+            </div>
+            <div class="col-6 text-center">
+                 <img src="{{ player.get_extended.get_image }}" class="img-fluid profile-img">
+            </div>
+            <div class="col-3 year-r text-center">
+                 {{ year }}
+            </div>
+        {% else %}
+            <div class="col-6 offset-3 text-center">
+                 <img src="{{ player.get_extended.get_image }}" class="img-fluid profile-img">
+            </div>
+        {% endif %}
     </div>
 
     <div class="row" style="max-height: 40mm">
