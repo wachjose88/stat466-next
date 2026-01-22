@@ -4,7 +4,7 @@
 {% load static %}
 {% load i18n %}
 {% load humanize %}
-<div class="row">
+<div class="row d-print-none">
     {% for player in players %}
         {% with player.0.get_extended as extended %}
             <div class="col-md-3">

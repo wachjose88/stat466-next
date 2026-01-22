@@ -18,7 +18,7 @@ def custom_user_str(self):
 User.add_to_class("__str__", custom_user_str)
 
 
-class LeagueOf2Players(models.Model):
+class League(models.Model):
 
     title = models.CharField(
         max_length=128,
@@ -29,6 +29,12 @@ class LeagueOf2Players(models.Model):
         default=timezone.now,
         verbose_name=_('Created at')
     )
+
+    class Meta:
+        abstract = True
+
+
+class LeagueOf2Players(League):
 
     player_1 = models.ForeignKey(
         User,
@@ -250,21 +256,12 @@ class LeagueOf2Players(models.Model):
         return str(self.title)
 
     class Meta:
+        abstract = False
         verbose_name = _('League of 2 Players')
         verbose_name_plural = _('Leagues of 2 Players')
 
 
-class LeagueOf3Players(models.Model):
-
-    title = models.CharField(
-        max_length=128,
-        verbose_name=_('Title')
-    )
-
-    created_at = models.DateTimeField(
-        default=timezone.now,
-        verbose_name=_('Created at')
-    )
+class LeagueOf3Players(League):
 
     player_1 = models.ForeignKey(
         User,
@@ -519,21 +516,12 @@ class LeagueOf3Players(models.Model):
         return str(self.title)
 
     class Meta:
+        abstract = False
         verbose_name = _('League of 3 Players')
         verbose_name_plural = _('Leagues of 3 Players')
 
 
-class LeagueOf4Players(models.Model):
-
-    title = models.CharField(
-        max_length=128,
-        verbose_name=_('Title')
-    )
-
-    created_at = models.DateTimeField(
-        default=timezone.now,
-        verbose_name=_('Created at')
-    )
+class LeagueOf4Players(League):
 
     team_1_player_1 = models.ForeignKey(
         User,

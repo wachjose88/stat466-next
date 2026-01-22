@@ -5,3 +5,17 @@
     font-size: 5rem;
     text-align: center;
 }
+
+@media print {
+    .main-content {
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+    }
+    table.results-table td {
+        padding: 0 !important;
+    }
+    table.results-table th {
+        padding: 0 !important;
+    }
+}

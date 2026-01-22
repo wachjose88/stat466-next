@@ -15,7 +15,7 @@
         <link href="{% static "core/css/style.css" %}" rel="stylesheet">
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark d-print-none">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'core.index' %}">
                 {% translate 'Stat466' %}</a>
@@ -94,7 +94,7 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 order-lg-0 order-sm-1">
+            <div class="col-lg-2 order-lg-0 order-sm-1 d-print-none">
                 <br>
                 <div class="container">
                     <img src="{% static 'core/images/cards_herz.jpg' %}" class="img-fluid">
@@ -104,16 +104,36 @@
                 </div>
             </div>
             <div class="col-lg-8 order-lg-1 order-sm-0">
-                <div class="container">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'core.index' %}">
-                                    {% translate 'Home' %}
-                                </a>
-                            </li>
-                            {% block breadcrumb %}{% endblock %}
-                        </ol>
-                    </nav>
+                <div class="container main-content">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <nav aria-label="breadcrumb" class="d-print-none">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'core.index' %}">
+                                            {% translate 'Home' %}
+                                        </a>
+                                    </li>
+                                    {% block breadcrumb %}{% endblock %}
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-md-3">
+                            <nav aria-label="breadcrumb" class="d-print-none">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" onclick="window.print(); return false;">
+                                            {% translate 'Print' %}
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        <input type="checkbox" name="print-canvas" id="print-canvas">
+                                        <label for="print-canvas">{% translate 'Print Graphs' %}</label>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
 
                     {% if messages %}
                         {% for message in messages %}
@@ -125,7 +145,7 @@
                     {% block content %}{% endblock %}
                 </div>
             </div>
-            <div class="col-lg-2 order-lg-2 order-sm-2">
+            <div class="col-lg-2 order-lg-2 order-sm-2 d-print-none">
                 <br>
                 <div class="container">
                     <img src="{% static 'core/images/cards_kreuz.jpg' %}" class="img-fluid">
@@ -147,6 +167,21 @@
             lang_sel.value = lang.id;
             form.submit();
         }
+        window.addEventListener("beforeprint", (event) => {
+            const print_canvas = document.getElementById("print-canvas");
+            if (print_canvas != null && print_canvas.checked === false) {
+                const graphs = document.getElementsByClassName("graph-canvas");
+                for (const graph of graphs) {
+                    graph.style.display = "none";
+                }
+            }
+        });
+        window.addEventListener("afterprint", (event) => {
+            const graphs = document.getElementsByClassName("graph-canvas");
+            for (const graph of graphs) {
+                graph.style.display = "block";
+            }
+        });
     </script>
     </body>
 </html>
