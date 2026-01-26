@@ -4,10 +4,10 @@
 {% load static %}
 {% load i18n %}
 {% load humanize %}
-<div class="row d-print-none">
+<div class="row players-overview">
     {% for player in players %}
         {% with player.0.get_extended as extended %}
-            <div class="col-md-3">
+            <div class="col-md-3 col-print-4">
                 <div class="card border-primary">
                     <img src="{{ extended.get_image }}"
                         class="card-img-top">
@@ -42,7 +42,7 @@
                             {{ str_num_won }}:
                             {{ player.2 }}
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item d-print-none">
                             <a href="{{ player.3 }}" target="_blank">
                                 {% translate 'Print certificate' %}
                             </a>
@@ -52,7 +52,7 @@
             </div>
         {% endwith %}
     {% endfor %}
-    <div class="col-md-3">
+    <div class="col-md-3 d-print-none">
         <div class="card border-primary">
             <img src="{% static 'core/images/dd.png' %}"
                 class="card-img-top">

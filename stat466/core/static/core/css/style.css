@@ -18,4 +18,10 @@
     table.results-table th {
         padding: 0 !important;
     }
+  .col-print-3 {
+    flex: 0 0 25% !important;
+    max-width: 25% !important; }
+    .col-print-4 {
+    flex: 0 0 33.33333% !important;;
+    max-width: 33.33333% !important;; }
 }

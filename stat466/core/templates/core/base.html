@@ -106,7 +106,7 @@
             <div class="col-lg-8 order-lg-1 order-sm-0">
                 <div class="container main-content">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <nav aria-label="breadcrumb" class="d-print-none">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{% url 'core.index' %}">
@@ -117,7 +117,7 @@
                                 </ol>
                             </nav>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <nav aria-label="breadcrumb" class="d-print-none">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
@@ -127,7 +127,11 @@
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         <input type="checkbox" name="print-canvas" id="print-canvas">
-                                        <label for="print-canvas">{% translate 'Print Graphs' %}</label>
+                                        <label for="print-canvas">{% translate 'Graphs' %}</label>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        <input type="checkbox" name="print-players" id="print-players">
+                                        <label for="print-players">{% translate 'Players' %}</label>
                                     </li>
                                 </ol>
                             </nav>
@@ -175,11 +179,22 @@
                     graph.style.display = "none";
                 }
             }
+            const print_players = document.getElementById("print-players");
+            if (print_players != null && print_players.checked === false) {
+                const players = document.getElementsByClassName("players-overview");
+                for (const player of players) {
+                    player.style.display = "none";
+                }
+            }
         });
         window.addEventListener("afterprint", (event) => {
             const graphs = document.getElementsByClassName("graph-canvas");
             for (const graph of graphs) {
                 graph.style.display = "block";
+            }
+            const players = document.getElementsByClassName("players-overview");
+            for (const player of players) {
+                player.style.display = "flex";
             }
         });
     </script>
