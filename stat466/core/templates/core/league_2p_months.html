@@ -39,7 +39,7 @@
 
     {% if month_statistic %}
     <h2 class="spacer">{% translate 'Statistic' %}</h2>
-    <table class="table table-hover">
+    <table class="table table-hover results-table">
         <thead>
             <tr>
                 <th>{% translate 'Month' %}</th>
@@ -87,11 +87,11 @@
         </tfoot>
     </table>
 
-    <div>
+    <div class="graph-canvas">
       <canvas id="months_chart"></canvas>
     </div>
-    <h2 class="spacer">{% translate 'Month History' %}</h2>
-    <div>
+    <h2 class="spacer graph-canvas">{% translate 'Month History' %}</h2>
+    <div class="graph-canvas">
       <canvas id="months_acc_chart"></canvas>
     </div>
     {% endif %}
@@ -99,7 +99,7 @@
 
     {% if half_year %}
     <h2 class="spacer">{% translate 'Half Year Statistic' %}</h2>
-    <table class="table table-hover">
+    <table class="table table-hover results-table">
         <thead>
             <tr>
                 <th>&nbsp;</th>
@@ -133,7 +133,7 @@
 
     {% if quarter_year %}
     <h2 class="spacer">{% translate 'Quarter Year Statistic' %}</h2>
-    <table class="table table-hover">
+    <table class="table table-hover results-table">
         <thead>
             <tr>
                 <th>&nbsp;</th>

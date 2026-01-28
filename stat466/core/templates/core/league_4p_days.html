@@ -43,7 +43,7 @@
 
     {% if day_statistic %}
     <h2 class="spacer">{% translate 'Statistic' %}</h2>
-    <table class="table table-hover">
+    <table class="table table-hover results-table">
         <thead>
             <tr>
                 <th>{% translate 'Day' %}</th>
@@ -86,11 +86,11 @@
         </tfoot>
     </table>
 
-    <div>
+    <div class="graph-canvas">
       <canvas id="days_chart"></canvas>
     </div>
-    <h2 class="spacer">{% translate 'Days History' %}</h2>
-    <div>
+    <h2 class="spacer graph-canvas">{% translate 'Days History' %}</h2>
+    <div class="graph-canvas">
       <canvas id="days_acc_chart"></canvas>
     </div>
     {% endif %}

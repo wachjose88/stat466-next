@@ -4,9 +4,9 @@
 {% load static %}
 {% load i18n %}
 {% load humanize %}
-<div class="row">
+<div class="row players-overview">
     {% for team in teams %}
-        <div class="col-md-6">
+        <div class="col-md-6 col-print-6">
             <div class="card border-primary">
                 <div class="card-body">
                     <div class="row">
@@ -55,7 +55,7 @@
                         {{ str_num_won }}:
                         {{ team.2 }}
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item d-print-none">
                         <a href="{{ team.3 }}" target="_blank">
                             {% translate 'Print certificate' %}
                         </a>
