@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Max
 from django.db.models.functions import TruncYear, TruncMonth, TruncDay
 from django.templatetags.static import static
 from django.utils import timezone
@@ -321,7 +321,8 @@ class LeagueOf3Players(League):
     def get_statistic(self):
         statistic = self.results.aggregate(
             Count('id'), Sum('num_games'), Sum('player_1_points'),
-            Sum('player_2_points'), Sum('player_3_points'))
+            Sum('player_2_points'), Sum('player_3_points'), Max('player_1_points'),
+            Max('player_2_points'), Max('player_3_points'))
         result = self.sort_results(statistic['player_1_points__sum'],
                                    statistic['player_2_points__sum'],
                                    statistic['player_3_points__sum'])
@@ -330,14 +331,22 @@ class LeagueOf3Players(League):
             'num_results': statistic['id__count'],
             'result': result,
             'avg_games_per_result': round(statistic['num_games__sum'] /
-                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0,
+            'max_points_per_result': ((statistic['player_1_points__max'],
+                                         statistic['player_2_points__max'],
+                                         statistic['player_3_points__max']),
+                                      max([statistic['player_1_points__max'],
+                                           statistic['player_2_points__max'],
+                                           statistic['player_3_points__max']])
+                                      )
         }
         return combined
 
     def get_month_sum_statistic(self, year):
         statistic = self.results.filter(played_at__year=year).aggregate(
             Count('id'), Sum('num_games'), Sum('player_1_points'),
-            Sum('player_2_points'), Sum('player_3_points'))
+            Sum('player_2_points'), Sum('player_3_points'), Max('player_1_points'),
+            Max('player_2_points'), Max('player_3_points'))
         result = self.sort_results(statistic['player_1_points__sum'],
                                    statistic['player_2_points__sum'],
                                    statistic['player_3_points__sum'])
@@ -346,7 +355,14 @@ class LeagueOf3Players(League):
             'num_results': statistic['id__count'],
             'result': result,
             'avg_games_per_result': round(statistic['num_games__sum'] /
-                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0,
+            'max_points_per_result': ((statistic['player_1_points__max'],
+                                         statistic['player_2_points__max'],
+                                         statistic['player_3_points__max']),
+                                      max([statistic['player_1_points__max'],
+                                           statistic['player_2_points__max'],
+                                           statistic['player_3_points__max']])
+                                      )
         }
         return combined
 
@@ -354,7 +370,8 @@ class LeagueOf3Players(League):
         statistic = self.results.filter(played_at__year=year,
                                         played_at__month=month).aggregate(
             Count('id'), Sum('num_games'), Sum('player_1_points'),
-            Sum('player_2_points'), Sum('player_3_points'))
+            Sum('player_2_points'), Sum('player_3_points'), Max('player_1_points'),
+            Max('player_2_points'), Max('player_3_points'))
         result = self.sort_results(statistic['player_1_points__sum'],
                                    statistic['player_2_points__sum'],
                                    statistic['player_3_points__sum'])
@@ -363,7 +380,14 @@ class LeagueOf3Players(League):
             'num_results': statistic['id__count'],
             'result': result,
             'avg_games_per_result': round(statistic['num_games__sum'] /
-                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0
+                statistic['id__count'], 2) if statistic['id__count'] > 0 else 0,
+            'max_points_per_result': ((statistic['player_1_points__max'],
+                                         statistic['player_2_points__max'],
+                                         statistic['player_3_points__max']),
+                                      max([statistic['player_1_points__max'],
+                                           statistic['player_2_points__max'],
+                                           statistic['player_3_points__max']])
+                                      )
         }
         return combined
 
