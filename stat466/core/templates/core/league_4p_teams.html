@@ -55,6 +55,12 @@
                         {{ str_num_won }}:
                         {{ team.2 }}
                     </li>
+                    {% if team.4 %}
+                        <li class="list-group-item">
+                            {% translate 'Max. Points per Result' %}:
+                            {{ team.4 }}
+                        </li>
+                    {% endif %}
                     <li class="list-group-item d-print-none">
                         <a href="{{ team.3 }}" target="_blank">
                             {% translate 'Print certificate' %}

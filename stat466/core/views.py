@@ -138,12 +138,12 @@ def league_2p_years(request, league_id):
              reverse('core.certificate', kwargs={
                  'num_players': 2, 'league_id': league_id,
                  'player_id': league.player_1.id
-             })),
+             }), statistic['max_points_per_result'][0][0]),
             (league.player_2, statistic['result'][1], win_count['player_2'],
              reverse('core.certificate', kwargs={
                  'num_players': 2, 'league_id': league_id,
                  'player_id': league.player_2.id
-             })),
+             }), statistic['max_points_per_result'][0][1]),
         ]
     }
     return render(request, 'core/league_2p_years.html', params)
@@ -183,12 +183,12 @@ def league_2p_months(request, league_id, year):
              reverse('core.certificate', kwargs={
                  'num_players': 2, 'league_id': league_id,
                  'player_id': league.player_1.id, 'year': year
-             })),
+             }), statistic['max_points_per_result'][0][0]),
             (league.player_2, statistic['result'][1], win_count['player_2'],
              reverse('core.certificate', kwargs={
                  'num_players': 2, 'league_id': league_id,
                  'player_id': league.player_2.id, 'year': year
-             }))
+             }), statistic['max_points_per_result'][0][1]),
         ],
         'half_year': half_year,
         'quarter_year': quarter_year
@@ -212,12 +212,12 @@ def league_2p_days(request, league_id, year, month):
              reverse('core.certificate', kwargs={
                  'num_players': 2, 'league_id': league_id,
                  'player_id': league.player_1.id, 'year': year, 'month': month
-             })),
+             }), statistic['max_points_per_result'][0][0]),
             (league.player_2, statistic['result'][1], win_count['player_2'],
              reverse('core.certificate', kwargs={
                  'num_players': 2, 'league_id': league_id,
                  'player_id': league.player_2.id, 'year': year, 'month': month
-             }))
+             }), statistic['max_points_per_result'][0][1]),
         ]
     }
     return render(request, 'core/league_2p_days.html', params)
@@ -287,13 +287,13 @@ def league_4p_months(request, league_id, year):
              reverse('core.certificate', kwargs={
                  'num_players': 4, 'league_id': league_id,
                  'player_id': league.team_1_player_1.id, 'year': year
-             })),
+             }), statistic['max_points_per_result'][0][0]),
             ((league.team_2_player_1, league.team_2_player_2),
              statistic['result'][1], win_count['team_2'],
              reverse('core.certificate', kwargs={
                  'num_players': 4, 'league_id': league_id,
                  'player_id': league.team_2_player_1.id, 'year': year
-             }))
+             }), statistic['max_points_per_result'][0][1])
         ],
         'half_year': half_year,
         'quarter_year': quarter_year
@@ -318,13 +318,13 @@ def league_4p_days(request, league_id, year, month):
              reverse('core.certificate', kwargs={
                  'num_players': 4, 'league_id': league_id,
                  'player_id': league.team_1_player_1.id, 'year': year, 'month': month
-             })),
+             }), statistic['max_points_per_result'][0][0]),
             ((league.team_2_player_1, league.team_2_player_2),
              statistic['result'][1], win_count['team_2'],
              reverse('core.certificate', kwargs={
                  'num_players': 4, 'league_id': league_id,
                  'player_id': league.team_2_player_1.id, 'year': year, 'month': month
-             }))
+             }), statistic['max_points_per_result'][0][1])
         ]
     }
     return render(request, 'core/league_4p_days.html', params)
@@ -345,13 +345,13 @@ def league_4p_years(request, league_id):
              reverse('core.certificate', kwargs={
                  'num_players': 4, 'league_id': league_id,
                  'player_id': league.team_1_player_1.id
-             })),
+             }), statistic['max_points_per_result'][0][0]),
             ((league.team_2_player_1, league.team_2_player_2),
              statistic['result'][1], win_count['team_2'],
              reverse('core.certificate', kwargs={
                  'num_players': 4, 'league_id': league_id,
                  'player_id': league.team_2_player_1.id
-             }))
+             }), statistic['max_points_per_result'][0][1])
         ]
     }
     return render(request, 'core/league_4p_years.html', params)
